@@ -89,7 +89,7 @@ public class SupporterScene extends PixelScene {
 		link.icon(Icons.get(Icons.GOLD));
 		link.textColor(Window.TITLE_COLOR);
 		link.setSize(elementWidth, BTN_HEIGHT);
-		add(link);
+//		add(link);
 
 		float elementHeight = msg.height() + BTN_HEIGHT + GAP;
 
@@ -125,7 +125,7 @@ public class SupporterScene extends PixelScene {
 			if (Messages.lang() != Languages.ENGLISH) {
 				message += "\n" + Messages.get(SupporterScene.class, "patreon_english");
 			}
-			message += "\n\n- Evan";
+			message += "\n\n- puny";
 
 			text = PixelScene.renderTextBlock(message, 6);
 			add(text);

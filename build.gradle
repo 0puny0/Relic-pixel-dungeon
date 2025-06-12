@@ -14,7 +14,7 @@ buildscript {
 allprojects {
 
     ext {
-        appName = 'Relic Pixel Dungeon'
+        appName = '遗迹地牢'
         appPackageName = 'com.relicpixel.relicpixeldungeon'
 
         appVersionCode = 846

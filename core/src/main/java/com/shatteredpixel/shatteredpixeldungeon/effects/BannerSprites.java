@@ -40,16 +40,16 @@ public class BannerSprites {
 		Image icon = new Image( Assets.Interfaces.BANNERS );
 		switch (type) {
 			case TITLE_PORT:
-				icon.frame( icon.texture.uvRect( 0, 0, 139, 100 ) );
+				icon.frame( icon.texture.uvRect( 0, 0, 150, 55 ) );
 				break;
 			case TITLE_GLOW_PORT:
-				icon.frame( icon.texture.uvRect( 139, 0, 278, 100 ) );
+				icon.frame( icon.texture.uvRect( 170, 0, 320, 55 ) );
 				break;
 			case TITLE_LAND:
-				icon.frame( icon.texture.uvRect( 0, 100, 240, 157) );
+				icon.frame( icon.texture.uvRect( 0, 0, 150, 55) );
 				break;
 			case TITLE_GLOW_LAND:
-				icon.frame( icon.texture.uvRect( 240, 100, 480, 157 ) );
+				icon.frame( icon.texture.uvRect( 170, 0, 320, 55 ) );
 				break;
 			case BOSS_SLAIN:
 				icon.frame( icon.texture.uvRect( 0, 157, 128, 192 ) );

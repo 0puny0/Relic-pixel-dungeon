@@ -264,7 +264,13 @@ public class Hero extends Char {
 		}
 		HP = Math.min(HP, HT);
 	}
-
+	public void changeLevel(int tolvl){
+		attackSkill+=tolvl-lvl;
+		defenseSkill+=tolvl-lvl;
+		lvl=tolvl;
+		updateHT(true);
+		Sample.INSTANCE.play( Assets.Sounds.LEVELUP );
+	}
 	public int STR() {
 		int strBonus = 0;
 

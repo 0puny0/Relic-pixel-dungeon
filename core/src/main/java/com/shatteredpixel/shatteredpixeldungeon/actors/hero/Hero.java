@@ -85,6 +85,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
@@ -552,7 +553,9 @@ public class Hero extends Char {
 		if (buff(RoundShield.GuardTracker.class) != null){
 			return INFINITE_EVASION;
 		}
-		
+		if(surprisedBy(enemy)){
+			return 0;
+		}
 		float evasion = defenseSkill;
 		
 		evasion *= RingOfEvasion.evasionMultiplier( this );
@@ -1503,7 +1506,9 @@ public class Hero extends Char {
 			Berserk berserk = Buff.affect(this, Berserk.class);
 			berserk.damage(damage);
 		}
-		
+		if (surprisedBy(enemy)) {
+			Surprise.hit(this);
+		}
 		if (belongings.armor() != null) {
 			damage = belongings.armor().proc( enemy, this, damage );
 		} else {
@@ -1524,6 +1529,13 @@ public class Hero extends Char {
 		
 		return super.defenseProc( enemy, damage );
 	}
+
+	@Override
+	public boolean surprisedBy(Char enemy, boolean attacking) {
+		return  (enemy.invisible > 0 || !visibleEnemies.contains(enemy) ||(fieldOfView != null && fieldOfView.length == Dungeon.level.length() && !fieldOfView[enemy.pos]))
+				&& (!attacking || enemy.canSurpriseAttack());
+	}
+
 
 	@Override
 	public int glyphLevel(Class<? extends Armor.Glyph> cls) {

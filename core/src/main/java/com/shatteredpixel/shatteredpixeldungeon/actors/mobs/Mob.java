@@ -762,13 +762,8 @@ public abstract class Mob extends Char {
 		return super.speed() * AscensionChallenge.enemySpeedModifier(this);
 	}
 
-	public final boolean surprisedBy( Char enemy ){
-		return surprisedBy( enemy, true);
-	}
-
 	public boolean surprisedBy( Char enemy, boolean attacking ){
-		return enemy == Dungeon.hero
-				&& (enemy.invisible > 0 || !enemySeen || (fieldOfView != null && fieldOfView.length == Dungeon.level.length() && !fieldOfView[enemy.pos]))
+		return  (enemy.invisible > 0 || !enemySeen || (fieldOfView != null && fieldOfView.length == Dungeon.level.length() && !fieldOfView[enemy.pos]))
 				&& (!attacking || enemy.canSurpriseAttack());
 	}
 

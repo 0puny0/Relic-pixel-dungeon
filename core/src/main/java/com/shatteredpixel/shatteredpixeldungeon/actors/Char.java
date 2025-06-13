@@ -788,7 +788,13 @@ public abstract class Char extends Actor {
 	public boolean canSurpriseAttack(){
 		return true;
 	}
-	
+	public final boolean surprisedBy( Char enemy ){
+		return surprisedBy( enemy, true);
+	}
+
+	public boolean surprisedBy( Char enemy, boolean attacking ){
+		return false;
+	}
 	//used so that buffs(Shieldbuff.class) isn't called every time unnecessarily
 	private int cachedShield = 0;
 	public boolean needsShieldUpdate = true;

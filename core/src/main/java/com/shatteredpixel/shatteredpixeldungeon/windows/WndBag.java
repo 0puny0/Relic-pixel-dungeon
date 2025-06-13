@@ -219,6 +219,7 @@ public class WndBag extends WndTabbed {
 
 			titleWidth = Math.min(titleWidth, amt.x);
 		}
+		addAbilitySlot(width );
 
 		String title = selector != null ? selector.textPrompt() : null;
 		RenderedTextBlock txtTitle = PixelScene.renderTextBlock(
@@ -232,7 +233,59 @@ public class WndBag extends WndTabbed {
 		PixelScene.align(txtTitle);
 		add( txtTitle );
 	}
-	
+	private void addAbilitySlot( int width ){
+		Image weapon=Icons.get(Icons.WEAPON_MASTERY);
+		weapon.x=slotWidth*1.5f;
+		weapon.y=(TITLE_HEIGHT-weapon.height())/2;
+		PixelScene.align(weapon);//对齐
+		add(weapon);
+		BitmapText weaponText = new BitmapText(Integer.toString(Dungeon.hero.weaponMastery), PixelScene.pixelFont);
+		weaponText.hardlight(TITLE_COLOR);
+		weaponText.measure();//测量
+		weaponText.x=weapon.x +weapon.width()+1;
+		weaponText.y=weapon.y;
+		PixelScene.align(weaponText);//对齐
+		add(weaponText);
+
+		Image armor=Icons.get(Icons.ARMOR_MASTERY);
+		armor.x=slotWidth*1.5f+(width-3*slotWidth)/4f;
+		armor.y=(TITLE_HEIGHT-armor.height())/2;
+		PixelScene.align(armor);//对齐
+		add(armor);
+		BitmapText armorText = new BitmapText(Integer.toString(Dungeon.hero.armorMastery), PixelScene.pixelFont);
+		armorText.hardlight(TITLE_COLOR);
+		armorText.measure();//测量
+		armorText.x=armor.x+armor.width()+1;
+		armorText.y=armor.y;
+		PixelScene.align(armorText);//对齐
+		add(armorText);
+
+		Image missile=Icons.get(Icons.MISSILE_MESTERY);
+		missile.x=slotWidth*1.5f+(width-3*slotWidth)/2f;
+		missile.y=(TITLE_HEIGHT-missile.height())/2;
+		PixelScene.align(missile);//对齐
+		add(missile);
+		BitmapText missileText = new BitmapText(Integer.toString(Dungeon.hero.missileMastery), PixelScene.pixelFont);
+		missileText.hardlight(TITLE_COLOR);
+		missileText.measure();//测量
+		missileText.x=missile.x+missile.width()+1;
+		missileText.y=missile.y;
+		PixelScene.align(missileText);//对齐
+		add(missileText);
+
+		Image mage=Icons.get(Icons.MAGE_MESTERY);
+		mage.x=slotWidth*1.5f+(width-3*slotWidth)/4f*3f;
+		mage.y=(TITLE_HEIGHT-mage.height())/2;
+		PixelScene.align(mage);//对齐
+		add(mage);
+		BitmapText mageText = new BitmapText(Integer.toString(Dungeon.hero.mageMastery), PixelScene.pixelFont);
+		mageText.hardlight(TITLE_COLOR);
+		mageText.measure();//测量
+		mageText.x=mage.x+mage.width()+1;
+		mageText.y=mage.y;
+		PixelScene.align(mageText);//对齐
+		add(mageText);
+	}
 	protected void placeItems( Bag container ) {
 		
 		// Equipped items

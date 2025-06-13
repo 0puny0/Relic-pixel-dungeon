@@ -256,7 +256,6 @@ public class WndHero extends WndTabbed {
 			PixelScene.align(missileText);//对齐
 			add(missileText);
 
-
 			Image mage=Icons.get(Icons.MAGE_MESTERY);
 			mage.x=WIDTH/4f*3f;
 			mage.y=pos;

@@ -72,7 +72,7 @@ public class WandOfDisintegration extends DamageWand {
 		
 		boolean terrainAffected = false;
 		
-		int level = buffedLvl();
+		int level = buffedLvl()+Dungeon.hero.mageMastery;
 		
 		int maxDistance = Math.min(distance(), beam.dist);
 		
@@ -133,7 +133,7 @@ public class WandOfDisintegration extends DamageWand {
 	}
 
 	private int distance() {
-		return buffedLvl()*2 + 6;
+		return (buffedLvl()+Dungeon.hero.mageMastery)*2 + 6;
 	}
 
 	@Override

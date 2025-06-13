@@ -123,6 +123,10 @@ public enum Icons {
 	SCROLL_HOLDER,
 	WAND_HOLSTER,
 	POTION_BANDOLIER,
+	WEAPON_MASTERY,
+	MISSILE_MESTERY,
+	MAGE_MESTERY,
+	ARMOR_MASTERY,
 
 	//icons that appear in the about screen, variable spacing
 	LIBGDX,
@@ -393,7 +397,18 @@ public enum Icons {
 			case POTION_BANDOLIER:
 				icon.frame( icon.texture.uvRectBySize( 216, 80, 10, 10 ) );
 				break;
-		
+			case WEAPON_MASTERY:
+				icon.frame( icon.texture.uvRectBySize( 226, 80, 7, 7 ) );
+				break;
+			case MAGE_MESTERY:
+				icon.frame( icon.texture.uvRectBySize( 234, 80, 7, 7 ) );
+				break;
+			case MISSILE_MESTERY:
+				icon.frame( icon.texture.uvRectBySize( 226, 88, 7, 7 ) );
+				break;
+			case ARMOR_MASTERY:
+				icon.frame( icon.texture.uvRectBySize( 234, 88, 7, 7 ) );
+				break;
 			case LIBGDX:
 				icon.frame( icon.texture.uvRectBySize( 0, 96, 16, 13 ) );
 				break;

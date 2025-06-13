@@ -228,7 +228,7 @@ public class Hero extends Char {
 	
 	public int lvl = 1;
 	public int exp = 0;
-	
+	public int armorMastery,weaponMastery,missileMastery,mageMastery;
 	public int HTBoost = 0;
 	
 	private ArrayList<Mob> visibleEnemies;
@@ -242,7 +242,7 @@ public class Hero extends Char {
 
 		HP = HT = 20;
 		STR = STARTING_STR;
-		
+		armorMastery=weaponMastery=missileMastery=mageMastery=0;
 		belongings = new Belongings( this );
 		
 		visibleEnemies = new ArrayList<>();
@@ -297,6 +297,11 @@ public class Hero extends Char {
 	private static final String STRENGTH	= "STR";
 	private static final String LEVEL		= "lvl";
 	private static final String EXPERIENCE	= "exp";
+	private static final String WEAPONMASTERY	= "weaponmastery";
+	private static final String MAGEMASTERY	= "magemastery";
+	private static final String MISSILEMASTERY	= "millsemastery";
+	private static final String ARMORMASTERY	= "armormastery";
+
 	private static final String HTBOOST     = "htboost";
 	
 	@Override
@@ -315,7 +320,12 @@ public class Hero extends Char {
 		bundle.put( STRENGTH, STR );
 		
 		bundle.put( LEVEL, lvl );
+
 		bundle.put( EXPERIENCE, exp );
+		bundle.put( WEAPONMASTERY, weaponMastery );
+		bundle.put( MISSILEMASTERY, missileMastery );
+		bundle.put( MAGEMASTERY, mageMastery );
+		bundle.put( ARMORMASTERY, armorMastery);
 		
 		bundle.put( HTBOOST, HTBoost );
 
@@ -327,6 +337,11 @@ public class Hero extends Char {
 
 		lvl = bundle.getInt( LEVEL );
 		exp = bundle.getInt( EXPERIENCE );
+
+		weaponMastery=bundle.getInt( WEAPONMASTERY );
+		missileMastery=bundle.getInt( MISSILEMASTERY );
+		mageMastery=bundle.getInt( MAGEMASTERY );
+		armorMastery=bundle.getInt( ARMORMASTERY );
 
 		HTBoost = bundle.getInt(HTBOOST);
 
@@ -344,7 +359,7 @@ public class Hero extends Char {
 
 		belongings.restoreFromBundle( bundle );
 	}
-	
+	//ToDo 英雄属性是否应当加入
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
 		info.level = bundle.getInt( LEVEL );
 		info.str = bundle.getInt( STRENGTH );
@@ -471,8 +486,8 @@ public class Hero extends Char {
 		boolean wasEnemy = enemy.alignment == Alignment.ENEMY
 				|| (enemy instanceof Mimic && enemy.alignment == Alignment.NEUTRAL);
 
-		//temporarily set the hero's weapon to the missile weapon being used
-		//TODO improve this!
+		//暂时将英雄的武器设置为正在使用的投掷武器
+		//TODO 改善下这个!
 		belongings.thrownWeapon = wep;
 		boolean hit = attack( enemy );
 		Invisibility.dispel();
@@ -623,7 +638,7 @@ public class Hero extends Char {
 		int dr = super.drRoll();
 
 		if (belongings.armor() != null) {
-			int armDr = Random.NormalIntRange( belongings.armor().DRMin(), belongings.armor().DRMax());
+			int armDr = Random.NormalIntRange( belongings.armor().DRMin(this), belongings.armor().DRMax(this));
 			if (STR() < belongings.armor().STRReq()){
 				armDr -= 2*(belongings.armor().STRReq() - STR());
 			}

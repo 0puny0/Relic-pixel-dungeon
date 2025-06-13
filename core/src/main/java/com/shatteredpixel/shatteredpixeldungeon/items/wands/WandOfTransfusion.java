@@ -92,7 +92,7 @@ public class WandOfTransfusion extends DamageWand {
 				// 5% of max hp
 				int selfDmg = Math.round(curUser.HT*0.05f);
 				
-				int healing = selfDmg + 3*buffedLvl();
+				int healing = selfDmg + 3*(buffedLvl()+Dungeon.hero.mageMastery);
 				int shielding = (ch.HP + healing) - ch.HT;
 				if (shielding > 0){
 					healing -= shielding;
@@ -103,7 +103,7 @@ public class WandOfTransfusion extends DamageWand {
 				
 				ch.HP += healing;
 				
-				ch.sprite.emitter().burst(Speck.factory(Speck.HEALING), 2 + buffedLvl() / 2);
+				ch.sprite.emitter().burst(Speck.factory(Speck.HEALING), 2 + (buffedLvl()+Dungeon.hero.mageMastery) / 2);
 				if (healing > 0) {
 					ch.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healing), FloatingText.HEALING);
 				}
@@ -122,8 +122,8 @@ public class WandOfTransfusion extends DamageWand {
 			} else if (ch.alignment == Char.Alignment.ENEMY || ch instanceof Mimic) {
 
 				//grant a self-shield, and...
-				Buff.affect(curUser, Barrier.class).setShield((5 + buffedLvl()));
-				curUser.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(5+buffedLvl()), FloatingText.SHIELDING);
+				Buff.affect(curUser, Barrier.class).setShield((5 + buffedLvl()+Dungeon.hero.mageMastery));
+				curUser.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(5+buffedLvl()+Dungeon.hero.mageMastery), FloatingText.SHIELDING);
 				
 				//charms living enemies
 				if (!ch.properties().contains(Char.Property.UNDEAD)) {
@@ -135,7 +135,7 @@ public class WandOfTransfusion extends DamageWand {
 				//harms the undead
 				} else {
 					ch.damage(damageRoll(), this);
-					ch.sprite.emitter().start(ShadowParticle.UP, 0.05f, 10 + buffedLvl());
+					ch.sprite.emitter().start(ShadowParticle.UP, 0.05f, 10 + buffedLvl()+Dungeon.hero.mageMastery);
 					Sample.INSTANCE.play(Assets.Sounds.BURNING);
 				}
 
@@ -162,7 +162,7 @@ public class WandOfTransfusion extends DamageWand {
 		if (defender.buff(Charm.class) != null && defender.buff(Charm.class).object == attacker.id()){
 			//grants a free use of the staff and shields self
 			freeCharge = true;
-			int shieldToGive = Math.round((2*(5 + buffedLvl()))*procChanceMultiplier(attacker));
+			int shieldToGive = Math.round((2*(5 + buffedLvl()+Dungeon.hero.mageMastery))*procChanceMultiplier(attacker));
 			Buff.affect(attacker, Barrier.class).setShield(shieldToGive);
 			attacker.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(shieldToGive), FloatingText.SHIELDING);
 			GLog.p( Messages.get(this, "charged") );
@@ -191,7 +191,7 @@ public class WandOfTransfusion extends DamageWand {
 	public String statsDesc() {
 		int selfDMG = Dungeon.hero != null ? Math.round(Dungeon.hero.HT*0.05f): 1;
 		if (levelKnown)
-			return Messages.get(this, "stats_desc", selfDMG, selfDMG + 3*buffedLvl(), 5+buffedLvl(), min(), max());
+			return Messages.get(this, "stats_desc", selfDMG, selfDMG + 3*(buffedLvl()+Dungeon.hero.mageMastery), 5+buffedLvl()+Dungeon.hero.mageMastery, min(), max());
 		else
 			return Messages.get(this, "stats_desc", selfDMG, selfDMG, 5, min(0), max(0));
 	}

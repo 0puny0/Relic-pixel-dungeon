@@ -373,7 +373,13 @@ public class Armor extends EquipableItem {
 	public final int DRMax(){
 		return DRMax(buffedLvl());
 	}
-
+	public final int DRMax(Char owner){
+		if (owner instanceof Hero){
+			return DRMax(buffedLvl()+((Hero) owner).armorMastery);
+		}else {
+			return DRMax(buffedLvl());
+		}
+	}
 	public int DRMax(int lvl){
 		if (Dungeon.isChallenged(Challenges.NO_ARMOR)){
 			return 1 + tier + lvl + augment.defenseFactor(lvl);
@@ -390,7 +396,13 @@ public class Armor extends EquipableItem {
 	public final int DRMin(){
 		return DRMin(buffedLvl());
 	}
-
+	public final int DRMin(Char owner){
+		if (owner instanceof Hero){
+			return DRMin(buffedLvl()+((Hero) owner).armorMastery);
+		}else {
+			return DRMin(buffedLvl());
+		}
+	}
 	public int DRMin(int lvl){
 		if (Dungeon.isChallenged(Challenges.NO_ARMOR)){
 			return 0;
@@ -576,8 +588,12 @@ public class Armor extends EquipableItem {
 		String info = super.info();
 		
 		if (levelKnown) {
+			if (isEquipped(Dungeon.hero)){
+				info += "\n\n" + Messages.get(Armor.class, "curr_absorb", tier, DRMin(Dungeon.hero), DRMax(Dungeon.hero), STRReq());
+			}else {
+				info += "\n\n" + Messages.get(Armor.class, "curr_absorb", tier, DRMin(), DRMax(), STRReq());
+			}
 
-			info += "\n\n" + Messages.get(Armor.class, "curr_absorb", tier, DRMin(), DRMax(), STRReq());
 			
 			if (Dungeon.hero != null && STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "too_heavy");

@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.wands;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -35,17 +36,29 @@ public abstract class DamageWand extends Wand{
 	public int min(){
 		return min(buffedLvl());
 	}
-
+	public int min(Char owner){
+		if(owner instanceof Hero){
+			return min(buffedLvl()+((Hero) owner).mageMastery);
+		}else {
+			return min();
+		}
+	}
 	public abstract int min(int lvl);
 
 	public int max(){
 		return max(buffedLvl());
 	}
-
+	public int max(Char owner){
+		if(owner instanceof Hero){
+			return max(buffedLvl()+((Hero) owner).mageMastery);
+		}else {
+			return max();
+		}
+	}
 	public abstract int max(int lvl);
 
 	public int damageRoll(){
-		return damageRoll(buffedLvl());
+		return damageRoll(buffedLvl()+Dungeon.hero.mageMastery);
 	}
 
 	public int damageRoll(int lvl){
@@ -65,7 +78,7 @@ public abstract class DamageWand extends Wand{
 	@Override
 	public String statsDesc() {
 		if (levelKnown)
-			return Messages.get(this, "stats_desc", min(), max());
+			return Messages.get(this, "stats_desc", min(Dungeon.hero.mageMastery), max(Dungeon.hero.mageMastery));
 		else
 			return Messages.get(this, "stats_desc", min(0), max(0));
 	}

@@ -250,13 +250,27 @@ public class MeleeWeapon extends Weapon {
 		return  tier +  //base
 				lvl;    //level scaling
 	}
-
+	@Override
+	public int min(Char owner){
+		if (owner instanceof Hero){
+			return min(buffedLvl()+((Hero) owner).weaponMastery);
+		}else {
+			return min(buffedLvl());
+		}
+	}
 	@Override
 	public int max(int lvl) {
 		return  5*(tier+1) +    //base
 				lvl*(tier+1);   //level scaling
 	}
-
+	@Override
+	public int max(Char owner){
+		if (owner instanceof Hero){
+			return max(buffedLvl()+((Hero) owner).weaponMastery);
+		}else {
+			return max(buffedLvl());
+		}
+	}
 	public int STRReq(int lvl){
 		int req = STRReq(tier, lvl);
 		if (masteryPotionBonus){
@@ -308,7 +322,12 @@ public class MeleeWeapon extends Weapon {
 		String info = super.info();
 
 		if (levelKnown) {
-			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
+			if (isEquipped(Dungeon.hero)){
+				info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min(Dungeon.hero)), augment.damageFactor(max(Dungeon.hero)), STRReq());
+			}else {
+				info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
+			}
+
 			if (Dungeon.hero != null) {
 				if (STRReq() > Dungeon.hero.STR()) {
 					info += " " + Messages.get(Weapon.class, "too_heavy");

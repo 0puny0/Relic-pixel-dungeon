@@ -91,7 +91,7 @@ public class WandOfBlastWave extends DamageWand {
 				if ((ch.isAlive() || ch.flying || !Dungeon.level.pit[ch.pos])
 						&& ch.pos == bolt.collisionPos + i) {
 					Ballistica trajectory = new Ballistica(ch.pos, ch.pos + i, Ballistica.MAGIC_BOLT);
-					int strength = 1 + Math.round(buffedLvl() / 2f);
+					int strength = 1 + Math.round((buffedLvl()+Dungeon.hero.mageMastery )/ 2f);
 					throwChar(ch, trajectory, strength, false, true, this);
 				}
 
@@ -108,7 +108,7 @@ public class WandOfBlastWave extends DamageWand {
 			if ((ch.isAlive() || ch.flying || !Dungeon.level.pit[ch.pos])
 					&& bolt.path.size() > bolt.dist+1 && ch.pos == bolt.collisionPos) {
 				Ballistica trajectory = new Ballistica(ch.pos, bolt.path.get(bolt.dist + 1), Ballistica.MAGIC_BOLT);
-				int strength = buffedLvl() + 3;
+				int strength = buffedLvl() +Dungeon.hero.mageMastery+ 3;
 				throwChar(ch, trajectory, strength, false, true, this);
 			}
 		}

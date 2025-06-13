@@ -137,9 +137,9 @@ public class WandOfWarding extends Wand {
 		if (ch != null){
 			if (ch instanceof Ward){
 				if (wardAvailable) {
-					((Ward) ch).upgrade( buffedLvl() );
+					((Ward) ch).upgrade( buffedLvl()+Dungeon.hero.mageMastery );
 				} else {
-					((Ward) ch).wandHeal( buffedLvl() );
+					((Ward) ch).wandHeal( buffedLvl() +Dungeon.hero.mageMastery);
 				}
 				ch.sprite.emitter().burst(MagicMissile.WardParticle.UP, ((Ward) ch).tier);
 			} else {
@@ -154,7 +154,7 @@ public class WandOfWarding extends Wand {
 		} else {
 			Ward ward = new Ward();
 			ward.pos = target;
-			ward.wandLevel = buffedLvl();
+			ward.wandLevel = buffedLvl()+Dungeon.hero.mageMastery;
 			GameScene.add(ward, 1f);
 			Dungeon.level.occupyCell(ward);
 			ward.sprite.emitter().burst(MagicMissile.WardParticle.UP, ward.tier);

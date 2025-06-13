@@ -91,7 +91,7 @@ public class WandOfFrost extends DamageWand {
 				float chillturns = Math.min(10, ch.buff(Chill.class).cooldown());
 				damage = (int)Math.round(damage * Math.pow(0.9333f, chillturns));
 			} else {
-				ch.sprite.burst( 0xFF99CCFF, buffedLvl() / 2 + 2 );
+				ch.sprite.burst( 0xFF99CCFF, (buffedLvl()+Dungeon.hero.mageMastery) / 2 + 2 );
 			}
 
 			wandProc(ch, chargesPerCast());
@@ -100,9 +100,9 @@ public class WandOfFrost extends DamageWand {
 
 			if (ch.isAlive()){
 				if (Dungeon.level.water[ch.pos])
-					Buff.affect(ch, Chill.class, 4+buffedLvl());
+					Buff.affect(ch, Chill.class, 4+buffedLvl()+Dungeon.hero.mageMastery);
 				else
-					Buff.affect(ch, Chill.class, 2+buffedLvl());
+					Buff.affect(ch, Chill.class, 2+buffedLvl()+Dungeon.hero.mageMastery);
 			}
 		} else {
 			Dungeon.level.pressCell(bolt.collisionPos);

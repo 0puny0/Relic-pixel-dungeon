@@ -94,7 +94,7 @@ public class WandOfRegrowth extends Wand {
 		}
 
 		int chrgUsed = chargesPerCast();
-		int grassToPlace = Math.round((3.67f+buffedLvl()/3f)*chrgUsed);
+		int grassToPlace = Math.round((3.67f+(buffedLvl()+Dungeon.hero.mageMastery)/3f)*chrgUsed);
 
 		//ignore cells which can't have anything grow in them.
 		for (Iterator<Integer> i = cells.iterator(); i.hasNext();) {
@@ -127,7 +127,7 @@ public class WandOfRegrowth extends Wand {
 
 		if (chargesPerCast() >= 3){
 			Lotus l = new Lotus();
-			l.setLevel(buffedLvl());
+			l.setLevel(buffedLvl()+Dungeon.hero.mageMastery);
 			if (cells.contains(target) && Actor.findChar(target) == null){
 				cells.remove((Integer)target);
 				l.pos = target;

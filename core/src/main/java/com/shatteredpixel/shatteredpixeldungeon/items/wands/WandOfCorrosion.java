@@ -56,9 +56,9 @@ public class WandOfCorrosion extends Wand {
 
 	@Override
 	public void onZap(Ballistica bolt) {
-		CorrosiveGas gas = Blob.seed(bolt.collisionPos, 50 + 10 * buffedLvl(), CorrosiveGas.class);
+		CorrosiveGas gas = Blob.seed(bolt.collisionPos, 50 + 10 * (buffedLvl()+Dungeon.hero.mageMastery), CorrosiveGas.class);
 		CellEmitter.get(bolt.collisionPos).burst(Speck.factory(Speck.CORROSION), 10 );
-		gas.setStrength(2 + buffedLvl(), getClass());
+		gas.setStrength(2 + buffedLvl()+Dungeon.hero.mageMastery, getClass());
 		GameScene.add(gas);
 		Sample.INSTANCE.play(Assets.Sounds.GAS);
 
@@ -91,7 +91,7 @@ public class WandOfCorrosion extends Wand {
 
 	@Override
 	public void onHit(MagesStaff staff, Char attacker, Char defender, int damage) {
-		int level = Math.max( 0, buffedLvl() );
+		int level = Math.max( 0, staff.buffedLvl()+Dungeon.hero.mageMastery);
 
 		// lvl 0 - 33%
 		// lvl 1 - 50%
@@ -120,7 +120,7 @@ public class WandOfCorrosion extends Wand {
 	@Override
 	public String statsDesc() {
 		if (levelKnown)
-			return Messages.get(this, "stats_desc", 2+buffedLvl());
+			return Messages.get(this, "stats_desc", 2+buffedLvl()+Dungeon.hero.mageMastery);
 		else
 			return Messages.get(this, "stats_desc", 2);
 	}

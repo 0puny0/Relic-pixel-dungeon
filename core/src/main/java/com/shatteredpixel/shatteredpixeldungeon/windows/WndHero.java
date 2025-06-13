@@ -31,6 +31,8 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
@@ -44,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.watabou.input.KeyBindings;
 import com.watabou.input.KeyEvent;
+import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Gizmo;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.Image;
@@ -184,7 +187,8 @@ public class WndHero extends WndTabbed {
 			infoButton.setRect(title.right(), 0, 16, 16);
 			add(infoButton);
 
-			pos = title.bottom() + 2*GAP;
+			pos = title.bottom() + GAP;
+			addAbilitySlot(hero);
 
 			int strBonus = hero.STR() - hero.STR;
 			if (strBonus > 0)           statSlot( Messages.get(this, "str"), hero.STR + " + " + strBonus );
@@ -212,7 +216,64 @@ public class WndHero extends WndTabbed {
 
 			pos += GAP;
 		}
+		private void addAbilitySlot(Hero hero){
+			Image weapon=Icons.get(Icons.WEAPON_MASTERY);
+			weapon.x=0;
+			weapon.y=pos;
+			PixelScene.align(weapon);//对齐
+			add(weapon);
+			BitmapText weaponText = new BitmapText(Integer.toString(hero.weaponMastery), PixelScene.pixelFont);
+			weaponText.hardlight(TITLE_COLOR);
+			weaponText.measure();//测量
+			weaponText.x=weapon.x +weapon.width()+1;
+			weaponText.y=pos;
+			PixelScene.align(weaponText);//对齐
+			add(weaponText);
 
+			Image armor=Icons.get(Icons.ARMOR_MASTERY);
+			armor.x=WIDTH/4f;
+			armor.y=pos;
+			PixelScene.align(armor);//对齐
+			add(armor);
+			BitmapText armorText = new BitmapText(Integer.toString(hero.armorMastery), PixelScene.pixelFont);
+			armorText.hardlight(TITLE_COLOR);
+			armorText.measure();//测量
+			armorText.x=armor.x+armor.width()+1;
+			armorText.y=pos;
+			PixelScene.align(armorText);//对齐
+			add(armorText);
+
+			Image missile=Icons.get(Icons.MISSILE_MESTERY);
+			missile.x=WIDTH/2f;
+			missile.y=pos;
+			PixelScene.align(missile);//对齐
+			add(missile);
+			BitmapText missileText = new BitmapText(Integer.toString(hero.missileMastery), PixelScene.pixelFont);
+			missileText.hardlight(TITLE_COLOR);
+			missileText.measure();//测量
+			missileText.x=missile.x+missile.width()+1;
+			missileText.y=pos;
+			PixelScene.align(missileText);//对齐
+			add(missileText);
+
+
+			Image mage=Icons.get(Icons.MAGE_MESTERY);
+			mage.x=WIDTH/4f*3f;
+			mage.y=pos;
+			PixelScene.align(mage);//对齐
+			add(mage);
+			BitmapText mageText = new BitmapText(Integer.toString(hero.mageMastery), PixelScene.pixelFont);
+			mageText.hardlight(TITLE_COLOR);
+			mageText.measure();//测量
+			mageText.x=mage.x+mage.width()+1;
+			mageText.y=pos;
+			PixelScene.align(mageText);//对齐
+			add(mageText);
+
+
+
+			pos=pos+weapon.height()+GAP;
+		}
 		private void statSlot( String label, String value ) {
 			
 			RenderedTextBlock txt = PixelScene.renderTextBlock( label, 8 );

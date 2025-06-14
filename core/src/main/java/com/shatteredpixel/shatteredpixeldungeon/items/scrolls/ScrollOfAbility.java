@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
+import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
@@ -43,52 +44,90 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndUpgrade;
+import com.watabou.noosa.audio.Sample;
 
 public class ScrollOfAbility extends Scroll {
 	
 	{
 		icon = ItemSpriteSheet.Icons.SCROLL_UPGRADE;
-
 		unique = true;
-
 		talentFactor = 2f;
 	}
-
-
-	public static void ability( Hero hero ) {
-		hero.sprite.emitter().start( Speck.factory( Speck.UP ), 0.2f, 3 );
-	}
+	protected static boolean identifiedByUse = false;
 
 	@Override
 	public void doRead() {
-		Hero hero=Dungeon.hero;
-		GameScene.show(
-				new WndOptions(new ItemSprite(this),
-						Messages.get(Potion.class, name()),
-						Messages.get(Potion.class, "please_choose"),
-						Messages.get(Potion.class, "weapon"), Messages.get(Potion.class, "armor") ,
-						Messages.get(Potion.class, "missile"), Messages.get(Potion.class, "mage")
-				) {
-					@Override
-					protected void onSelect(int index) {
-						switch (index) {
-							case 0:
-								hero.weaponMastery++;
-								break;
-							case 1:
-								hero.armorMastery++;
-								break;
-							case 2:
-								hero.missileMastery++;
-								break;
-							case 3:
-								hero.mageMastery++;
-								break;
-						}
-					}
-				}
-		);
+		if (!isKnown()) {
+			identify();
+			identifiedByUse = true;
+		} else {
+			identifiedByUse = false;
+		}
+		abilityOptinons();
 	}
+	private void confirmCancelation() {
+		GameScene.show( new WndOptions(new ItemSprite(this),
+				Messages.titleCase(name()),
+				Messages.get(InventoryScroll.class, "warning"),
+				Messages.get(InventoryScroll.class, "yes"),
+				Messages.get(InventoryScroll.class, "no") ) {
+			@Override
+			protected void onSelect( int index ) {
+				switch (index) {
+					case 0:
+						curUser.spendAndNext( TIME_TO_READ );
+						identifiedByUse = false;
+						detach( curUser.belongings.backpack );
+						break;
+					case 1:
+						abilityOptinons();
+						break;
+				}
+			}
+			public void onBackPressed() {}
+		} );
+	}
+	private void abilityOptinons(){
+		GameScene.show(new WndOptions(new ItemSprite(this),
+				Messages.get(this, "name"),
+				Messages.get(this, "please_choose"),
+				Messages.get(this, "weapon"), Messages.get(this, "armor") ,
+				Messages.get(this, "missile"), Messages.get(this, "mage")) {
+			@Override
+			protected void onSelect(int index) {
+				switch (index) {
+					case 0:
+						curUser.weaponMastery++;
+						break;
+					case 1:
+						curUser.armorMastery++;
+						break;
+					case 2:
+						curUser.missileMastery++;
+						break;
+					case 3:
+						curUser.mageMastery++;
+						break;
+				}
+
+				detach( curUser.belongings.backpack );
+				GLog.p(Messages.get(ScrollOfAbility.class, "strengthen"));
+				curUser.sprite.emitter().start(Speck.factory(Speck.UP), 0.2f, 3);
+				Sample.INSTANCE.play(Assets.Sounds.READ);
+				readAnimation();
+			}
+
+			@Override
+			public void onBackPressed() {
+				if(identifiedByUse && !((Scroll)curItem).anonymous){
+					confirmCancelation();
+				}
+				super.onBackPressed();
+			}
+		});
+	}
+
+
 
 	@Override
 	public int value() {

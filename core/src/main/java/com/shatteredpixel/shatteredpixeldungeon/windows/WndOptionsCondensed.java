@@ -28,7 +28,7 @@ import com.watabou.noosa.Image;
 
 import java.util.ArrayList;
 
-//similar to WndOptions, but tries to place multiple buttons per row
+//类似于WndOptions，但尝试在每行放置多个按钮
 public class WndOptionsCondensed extends WndOptions {
 
 	public WndOptionsCondensed(Image icon, String title, String message, String... options) {

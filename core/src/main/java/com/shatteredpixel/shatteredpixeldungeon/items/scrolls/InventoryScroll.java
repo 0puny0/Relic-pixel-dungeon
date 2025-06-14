@@ -103,7 +103,7 @@ public abstract class InventoryScroll extends Scroll {
 		@Override
 		public void onSelect( Item item ) {
 			
-			//FIXME this safety check shouldn't be necessary
+			//请注意，此安全检查并非必要
 			//it would be better to eliminate the curItem static variable.
 			if (!(curItem instanceof InventoryScroll)){
 				return;

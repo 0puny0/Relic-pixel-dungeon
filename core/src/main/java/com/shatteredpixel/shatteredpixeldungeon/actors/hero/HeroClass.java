@@ -371,6 +371,7 @@ public enum HeroClass {
 	private static void textTime(Hero hero) {
 		//TODO 临时测试道具
 		new ScrollOfAbility().quantity(100).collect();
+		new ScrollOfUpgrade().quantity(10).collect();
 
 
 

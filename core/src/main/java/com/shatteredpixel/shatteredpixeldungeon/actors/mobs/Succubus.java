@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAbility;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
@@ -174,7 +175,7 @@ public class Succubus extends Mob {
 		Class<?extends Scroll> loot;
 		do{
 			loot = (Class<? extends Scroll>) Random.oneOf(Generator.Category.SCROLL.classes);
-		} while (loot == ScrollOfIdentify.class || loot == ScrollOfUpgrade.class);
+		} while (loot == ScrollOfIdentify.class || loot == ScrollOfAbility.class);
 
 		return Reflection.newInstance(loot);
 	}

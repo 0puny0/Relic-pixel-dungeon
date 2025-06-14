@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAbility;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
@@ -35,7 +36,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetributio
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -47,8 +47,8 @@ public abstract class ExoticScroll extends Scroll {
 	public static final LinkedHashMap<Class<?extends Scroll>, Class<?extends ExoticScroll>> regToExo = new LinkedHashMap<>();
 	public static final LinkedHashMap<Class<?extends ExoticScroll>, Class<?extends Scroll>> exoToReg = new LinkedHashMap<>();
 	static{
-		regToExo.put(ScrollOfUpgrade.class, ScrollOfEnchantment.class);
-		exoToReg.put(ScrollOfEnchantment.class, ScrollOfUpgrade.class);
+		regToExo.put(ScrollOfAbility.class, ScrollOfEnchantment.class);
+		exoToReg.put(ScrollOfEnchantment.class, ScrollOfAbility.class);
 
 		regToExo.put(ScrollOfIdentify.class, ScrollOfDivination.class);
 		exoToReg.put(ScrollOfDivination.class, ScrollOfIdentify.class);

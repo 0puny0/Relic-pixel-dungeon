@@ -71,6 +71,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesi
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAbility;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
@@ -229,7 +230,7 @@ public abstract class Level implements Bundlable {
 				//for 0 levelgen impact, we need to do something like give the player all SOU, but nerf them
 				//or give a random scroll (from a separate RNG) instead of every 2nd SOU
 				if (!Dungeon.isChallenged(Challenges.NO_SCROLLS) || Dungeon.LimitedDrops.UPGRADE_SCROLLS.count%2 != 0){
-					addItemToSpawn(new ScrollOfUpgrade());
+					addItemToSpawn(new ScrollOfAbility());
 				}
 			}
 			if (Dungeon.asNeeded()) {

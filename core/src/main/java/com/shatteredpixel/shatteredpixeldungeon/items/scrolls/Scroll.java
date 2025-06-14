@@ -320,7 +320,7 @@ public abstract class Scroll extends Item {
 			stones.put(ScrollOfTeleportation.class, StoneOfBlink.class);
 			stones.put(ScrollOfTerror.class,        StoneOfFear.class);
 			stones.put(ScrollOfTransmutation.class, StoneOfAugmentation.class);
-			stones.put(ScrollOfUpgrade.class,       StoneOfEnchantment.class);
+			stones.put(ScrollOfAbility.class,       StoneOfEnchantment.class);
 		}
 		
 		@Override

@@ -219,7 +219,7 @@ public enum HeroClass {
 
 		Dungeon.quickslot.setSlot(0, staff);
 
-		new ScrollOfUpgrade().identify();
+		new ScrollOfAbility().identify();
 		new PotionOfLiquidFlame().identify();
 	}
 

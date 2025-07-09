@@ -119,6 +119,11 @@ public class Spinner extends Mob {
 	@Override
 	public int attackProc(Char enemy, int damage) {
 		damage = super.attackProc( enemy, damage );
+		buffAffect();
+		return damage;
+	}
+
+	protected void buffAffect(){
 		if (Random.Int(2) == 0) {
 			int duration = Random.IntRange(7, 8);
 			//we only use half the ascension modifier here as total poison dmg doesn't scale linearly
@@ -127,10 +132,9 @@ public class Spinner extends Mob {
 			webCoolDown = 0;
 			state = FLEEING;
 		}
-
-		return damage;
 	}
-	
+
+
 	private boolean shotWebVisually = false;
 
 	public int webPos(){

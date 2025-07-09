@@ -110,12 +110,7 @@ public class Warlock extends Mob implements Callback {
 		Invisibility.dispel(this);
 		Char enemy = this.enemy;
 		if (hit( this, enemy, true )) {
-			//TODO would be nice for this to work on ghost/statues too
-			if (enemy == Dungeon.hero && Random.Int( 2 ) == 0) {
-				Buff.prolong( enemy, Degrade.class, Degrade.DURATION );
-				Sample.INSTANCE.play( Assets.Sounds.DEGRADE );
-			}
-			
+			zapProc();
 			int dmg = Random.NormalIntRange( 12, 18 );
 			dmg = Math.round(dmg * AscensionChallenge.statModifier(this));
 
@@ -137,7 +132,13 @@ public class Warlock extends Mob implements Callback {
 			enemy.sprite.showStatus( CharSprite.NEUTRAL,  enemy.defenseVerb() );
 		}
 	}
-	
+	protected void zapProc(){
+		//TODO 降级会对幽灵和魔像生效吗
+		if (enemy == Dungeon.hero && Random.Int( 2 ) == 0) {
+			Buff.prolong( enemy, Degrade.class, Degrade.DURATION );
+			Sample.INSTANCE.play( Assets.Sounds.DEGRADE );
+		}
+	}
 	public void onZapComplete() {
 		zap();
 		next();

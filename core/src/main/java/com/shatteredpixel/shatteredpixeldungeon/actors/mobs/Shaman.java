@@ -110,7 +110,7 @@ public abstract class Shaman extends Mob {
 	//used so resistances can differentiate between melee and magical attacks
 	public static class EarthenBolt{}
 	
-	private void zap() {
+	protected void zap() {
 		spend( 1f );
 
 		Invisibility.dispel(this);
@@ -180,7 +180,45 @@ public abstract class Shaman extends Mob {
 			Buff.prolong( enemy, Hex.class, Hex.DURATION );
 		}
 	}
-	
+	public static class WhiteShaman extends Shaman {
+		{
+			spriteClass = ShamanSprite.White.class;
+		}
+		@Override
+		protected void zap(){
+			spend( 1f );
+
+			Invisibility.dispel(this);
+			Char enemy = this.enemy;
+			if (hit( this, enemy, true )) {
+
+				debuff( enemy );
+				if (enemy == Dungeon.hero) Sample.INSTANCE.play( Assets.Sounds.DEBUFF );
+
+				int dmg = Random.NormalIntRange( 6, 15 );
+				dmg = Math.round(dmg * AscensionChallenge.statModifier(this));
+				enemy.damage( dmg, new EarthenBolt() );
+
+				if (!enemy.isAlive() && enemy == Dungeon.hero) {
+					Badges.validateDeathFromEnemyMagic();
+					Dungeon.fail( this );
+					GLog.n( Messages.get(this, "bolt_kill") );
+				}
+			} else {
+				enemy.sprite.showStatus( CharSprite.NEUTRAL,  enemy.defenseVerb() );
+			}
+		}
+		@Override
+		protected void debuff( Char enemy ) {
+			if (enemy.buff(Weakness.class)==null){
+				Buff.prolong(enemy,Weakness.class,Weakness.DURATION);
+			}else if (enemy.buffs(Vulnerable.class)==null){
+				Buff.prolong(enemy,Vulnerable.class,Vulnerable.DURATION);
+			}else if (enemy.buffs(Hex.class)==null){
+				Buff.prolong(enemy,Hex.class,Hex.DURATION);
+			}
+		}
+	}
 	public static Class<? extends Shaman> random(){
 		float roll = Random.Float();
 		if (roll < 0.4f){

@@ -130,9 +130,8 @@ public class Eye extends Mob {
 		if (beamCooldown > 0 || (!beamCharged && !beam.subPath(1, beam.dist).contains(enemy.pos))) {
 			return super.doAttack(enemy);
 		} else if (!beamCharged){
-			((EyeSprite)sprite).charge( enemy.pos );
-			spend( attackDelay()*2f );
-			beamCharged = true;
+
+			beamCharge();
 			return true;
 		} else {
 
@@ -149,7 +148,11 @@ public class Eye extends Mob {
 		}
 
 	}
-
+	protected void beamCharge(){
+		((EyeSprite)sprite).charge( enemy.pos );
+		spend( attackDelay()*2f );
+		beamCharged = true;
+	}
 	@Override
 	public void damage(int dmg, Object src) {
 		if (beamCharged) dmg /= 4;
@@ -191,9 +194,7 @@ public class Eye extends Mob {
 			}
 
 			if (hit( this, ch, true )) {
-				int dmg = Random.NormalIntRange( 30, 50 );
-				dmg = Math.round(dmg * AscensionChallenge.statModifier(this));
-
+				int dmg=deathGazeDamge();
 				//logic for fists or Yog-Dzewa taking 1/2 or 1/4 damage from aggression stoned minions
 				if ( ch.buff(StoneOfAggression.Aggression.class) != null
 						&& ch.alignment == alignment
@@ -228,7 +229,11 @@ public class Eye extends Mob {
 		beam = null;
 		beamTarget = -1;
 	}
-
+	protected int deathGazeDamge(){
+		int dmg = Random.NormalIntRange( 30, 50 );
+		dmg = Math.round(dmg * AscensionChallenge.statModifier(this));
+		return dmg;
+	}
 	//generates an average of 1 dew, 0.25 seeds, and 0.25 stones
 	@Override
 	public Item createLoot() {

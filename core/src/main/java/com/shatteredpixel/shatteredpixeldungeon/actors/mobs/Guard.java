@@ -118,7 +118,7 @@ public class Guard extends Mob {
 		return true;
 	}
 
-	private void pullEnemy( Char enemy, int pullPos ){
+	protected void pullEnemy( Char enemy, int pullPos ){
 		enemy.pos = pullPos;
 		enemy.sprite.place(pullPos);
 		Dungeon.level.occupyCell(enemy);

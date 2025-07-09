@@ -106,7 +106,7 @@ public abstract class ShamanSprite extends MobSprite {
 			return 21;
 		}
 	}
-	
+
 	public static class Purple extends ShamanSprite {
 		{
 			boltType = MagicMissile.SHAMAN_PURPLE;
@@ -115,6 +115,16 @@ public abstract class ShamanSprite extends MobSprite {
 		@Override
 		protected int texOffset() {
 			return 42;
+		}
+	}
+	public static class White extends ShamanSprite {
+		{
+			boltType = MagicMissile.SHAMAN_PURPLE;
+		}
+
+		@Override
+		protected int texOffset() {
+			return 63;
 		}
 	}
 }

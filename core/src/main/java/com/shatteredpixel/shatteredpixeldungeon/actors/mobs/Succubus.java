@@ -79,22 +79,7 @@ public class Succubus extends Mob {
 		damage = super.attackProc( enemy, damage );
 		
 		if (enemy.buff(Charm.class) != null ){
-			int shield = (HP - HT) + (5 + damage);
-			if (shield > 0){
-				HP = HT;
-				if (shield < 5){
-					sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(5-shield), FloatingText.HEALING);
-				}
-
-				Buff.affect(this, Barrier.class).setShield(shield);
-				sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(shield), FloatingText.SHIELDING);
-			} else {
-				HP += 5 + damage;
-				sprite.showStatusWithIcon(CharSprite.POSITIVE, "5", FloatingText.HEALING);
-			}
-			if (Dungeon.level.heroFOV[pos]) {
-				Sample.INSTANCE.play( Assets.Sounds.CHARMS );
-			}
+			charmAttack(damage);
 		} else if (Random.Int( 3 ) == 0) {
 			Charm c = Buff.affect( enemy, Charm.class, Charm.DURATION/2f );
 			c.object = id();
@@ -107,7 +92,12 @@ public class Succubus extends Mob {
 		
 		return damage;
 	}
-	
+	protected void charmAttack(int damage){
+		heal(5+damage,true);
+		if (Dungeon.level.heroFOV[pos]) {
+			Sample.INSTANCE.play( Assets.Sounds.CHARMS );
+		}
+	}
 	@Override
 	protected boolean getCloser( int target ) {
 		if (fieldOfView[target] && Dungeon.level.distance( pos, target ) > 2 && blinkCooldown <= 0 && !rooted) {

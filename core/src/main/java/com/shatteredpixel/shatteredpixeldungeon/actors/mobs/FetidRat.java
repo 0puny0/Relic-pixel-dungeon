@@ -66,7 +66,7 @@ public class FetidRat extends Rat {
 		damage = super.attackProc( enemy, damage );
 		if (Random.Int(3) == 0) {
 			Buff.affect(enemy, Ooze.class).set( Ooze.DURATION );
-			//score loss is on-hit instead of on-attack because it's tied to ooze
+			//分数损失是在击中时而不是在攻击时发生的，因为它与淤泥有关
 			if (enemy == Dungeon.hero && !Dungeon.level.water[enemy.pos]){
 				Statistics.questScores[0] -= 50;
 			}

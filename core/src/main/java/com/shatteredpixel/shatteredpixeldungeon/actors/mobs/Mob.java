@@ -267,7 +267,7 @@ public abstract class Mob extends Char {
 	protected boolean intelligentAlly = false;
 	
 	protected Char chooseEnemy() {
-
+		//如果恐惧或魂飞破散，返回恐惧来源
 		Dread dread = buff( Dread.class );
 		if (dread != null) {
 			Char source = (Char)Actor.findById( dread.object );
@@ -275,7 +275,6 @@ public abstract class Mob extends Char {
 				return source;
 			}
 		}
-
 		Terror terror = buff( Terror.class );
 		if (terror != null) {
 			Char source = (Char)Actor.findById( terror.object );
@@ -284,7 +283,7 @@ public abstract class Mob extends Char {
 			}
 		}
 		
-		//if we are an alert enemy, auto-hunt a target that is affected by aggression, even another enemy
+		//众矢之符石，返回被众矢之的目标。if we are an alert enemy, auto-hunt a target that is affected by aggression, even another enemy
 		if ((alignment == Alignment.ENEMY || buff(Amok.class) != null ) && state != PASSIVE && state != SLEEPING) {
 			if (enemy != null && enemy.buff(StoneOfAggression.Aggression.class) != null){
 				state = HUNTING;
@@ -299,25 +298,25 @@ public abstract class Mob extends Char {
 			}
 		}
 
-		//find a new enemy if..
+		//如果出现以下情况则寻找一个新的敌人。find a new enemy if..
 		boolean newEnemy = false;
-		//we have no enemy, or the current one is dead/missing
+		//没有敌人或者敌人死亡。we have no enemy, or the current one is dead/missing
 		if ( enemy == null || !enemy.isAlive() || !Actor.chars().contains(enemy) || state == WANDERING) {
 			newEnemy = true;
-		//We are amoked and current enemy is the hero
+		//狂怒状态下。We are amoked and current enemy is the hero
 		} else if (buff( Amok.class ) != null && enemy == Dungeon.hero) {
 			newEnemy = true;
-		//We are charmed and current enemy is what charmed us
+		//被当前的敌人魅惑。We are charmed and current enemy is what charmed us
 		} else if (buff(Charm.class) != null && buff(Charm.class).object == enemy.id()) {
 			newEnemy = true;
 		}
 
-		//additionally, if we are an ally, find a new enemy if...
+		//如果我们是友军，出现下列情况发现一个新的敌人。additionally, if we are an ally, find a new enemy if...
 		if (!newEnemy && alignment == Alignment.ALLY){
-			//current enemy is also an ally
+			//当前的敌人也是友军。current enemy is also an ally
 			if (enemy.alignment == Alignment.ALLY){
 				newEnemy = true;
-			//current enemy is invulnerable
+			//当前的敌人是隐身的。current enemy is invulnerable
 			} else if (enemy.isInvulnerable(getClass())){
 				newEnemy = true;
 			}
@@ -327,7 +326,7 @@ public abstract class Mob extends Char {
 
 			HashSet<Char> enemies = new HashSet<>();
 
-			//if we are amoked...
+			//如果在狂怒状态下。if we are amoked...
 			if ( buff(Amok.class) != null) {
 				//try to find an enemy mob to attack first.
 				for (Mob mob : Dungeon.level.mobs)
@@ -379,7 +378,7 @@ public abstract class Mob extends Char {
 				
 			}
 
-			//do not target anything that's charming us
+			//不要以魅惑的单位为目标。do not target anything that's charming us
 			Charm charm = buff( Charm.class );
 			if (charm != null){
 				Char source = (Char)Actor.findById( charm.object );
@@ -387,20 +386,20 @@ public abstract class Mob extends Char {
 					enemies.remove(source);
 				}
 			}
-
-			//neutral characters in particular do not choose enemies.
 			if (enemies.isEmpty()){
+				//中立的角色不会选择敌人。neutral characters in particular do not choose enemies.
 				return null;
 			} else {
-				//go after the closest potential enemy, preferring enemies that can be reached/attacked, and the hero if two are equidistant
+				//追逐最近的可触达目标。go after the closest potential enemy, preferring enemies that can be reached/attacked, and the hero if two are equidistant
 				PathFinder.buildDistanceMap(pos, Dungeon.findPassable(this, Dungeon.level.passable, fieldOfView, true));
 				Char closest = null;
 				int closestDist = Integer.MAX_VALUE;
 
 				for (Char curr : enemies){
 					int currDist = Integer.MAX_VALUE;
-					//we aren't trying to move into the target, just toward them
+					//不要进入目标的单元格，仅仅只是靠近他。we aren't trying to move into the target, just toward them
 					for (int i : PathFinder.NEIGHBOURS8){
+						//找到距离目标最近的单元格
 						if (PathFinder.distance[curr.pos+i] < currDist){
 							currDist = PathFinder.distance[curr.pos+i];
 						}
@@ -408,17 +407,17 @@ public abstract class Mob extends Char {
 					if (closest == null){
 						closest = curr;
 						closestDist = currDist;
-					} else if (canAttack(closest) && !canAttack(curr)){
+					} else if (canAttack(closest) && !canAttack(curr)){//如果当前目标不能攻击，保持原有目标
 						continue;
 					} else if ((canAttack(curr) && !canAttack(closest))
-							|| (currDist < closestDist)){
+							|| (currDist < closestDist)){//以最短的距离为目标
 						closest = curr;
-					} else if ( curr == Dungeon.hero &&
-							(currDist == closestDist) || (canAttack(curr) && canAttack(closest))){
+					} else if ( curr == Dungeon.hero && (currDist == closestDist)
+							|| (canAttack(curr) && canAttack(closest))){//相同距离下，优先以英雄为目标
 						closest = curr;
 					}
 				}
-				//if we were going to target the hero, but an afterimage exists, target that instead
+				//有残像的话用残像代替英雄为目标if we were going to target the hero, but an afterimage exists, target that instead
 				if (closest == Dungeon.hero){
 					for (Char ch : enemies){
 						if (ch instanceof Feint.AfterImage){
@@ -748,8 +747,7 @@ public abstract class Mob extends Char {
 
 				if (Dungeon.hero.HP < Dungeon.hero.HT) {
 					int heal = (int)Math.ceil(restoration * 0.4f);
-					Dungeon.hero.HP = Math.min(Dungeon.hero.HT, Dungeon.hero.HP + heal);
-					Dungeon.hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(heal), FloatingText.HEALING);
+					Dungeon.hero.heal(heal,false);
 				}
 			}
 		}
@@ -1215,6 +1213,7 @@ public abstract class Mob extends Char {
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
 			enemySeen = enemyInFOV;
+			//如果目标可见，并且可以攻击
 			if (enemyInFOV && !isCharmedBy( enemy ) && canAttack( enemy )) {
 
 				recentlyAttackedBy.clear();
@@ -1222,7 +1221,7 @@ public abstract class Mob extends Char {
 				return doAttack( enemy );
 
 			} else {
-
+				//如果我们无法攻击我们的目标，但被其他可见的、可攻击的或更近的东西击中，就交换目标
 				//if we cannot attack our target, but were hit by something else that
 				// is visible and attackable or closer, swap targets
 				if (!recentlyAttackedBy.isEmpty()){
@@ -1260,7 +1259,7 @@ public abstract class Mob extends Char {
 					return moveSprite( oldPos,  pos );
 
 				} else {
-
+					//如果不可能向敌人移动，那就试着将目标转向另一个更近的敌人，除非我们已经这么做了，但仍然无法向他们移动，然后继续前进
 					//if moving towards an enemy isn't possible, try to switch targets to another enemy that is closer
 					//unless we have already done that and still can't move toward them, then move on.
 					if (!recursing) {

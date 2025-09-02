@@ -187,7 +187,7 @@ public class Buff extends Actor {
 		return buff;
 	}
 
-	//postpones an already active buff, or creates & attaches a new buff and delays that.
+	//延迟一个已经激活的buff，或者创建并附加一个新的buff并延迟它。
 	public static<T extends FlavourBuff> T prolong( Char target, Class<T> buffClass, float duration ) {
 		T buff = affect( target, buffClass );
 		buff.postpone( duration * target.resist(buffClass) );

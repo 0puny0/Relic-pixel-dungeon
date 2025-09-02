@@ -72,11 +72,11 @@ public class Bat extends Mob {
 	@Override
 	public int attackProc( Char enemy, int damage ) {
 		damage = super.attackProc( enemy, damage );
-		int reg = Math.min( damage - 4, HT - HP );
+
+		int reg = damage - 4;
 		
 		if (reg > 0) {
-			HP += reg;
-			sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(reg), FloatingText.HEALING);
+			heal(reg,false);
 		}
 		
 		return damage;

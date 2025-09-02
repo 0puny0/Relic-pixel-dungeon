@@ -146,7 +146,9 @@ public class Ghoul extends Mob {
 		}
 		return super.act();
 	}
-
+	public int rebirthHP(){
+		return Math.round(HT/10f);
+	}
 	private boolean beingLifeLinked = false;
 
 	@Override
@@ -159,14 +161,16 @@ public class Ghoul extends Mob {
 				Actor.remove(this);
 				Dungeon.level.mobs.remove( this );
 				Buff.append(nearby, GhoulLifeLink.class).set(timesDowned*5, this);
-				((GhoulSprite)sprite).crumple();
+				crumple();
 				return;
 			}
 		}
 
 		super.die(cause);
 	}
-
+	protected void crumple(){
+		((GhoulSprite)sprite).crumple();
+	}
 	@Override
 	public boolean isAlive() {
 		return super.isAlive() || beingLifeLinked;
@@ -286,14 +290,14 @@ public class Ghoul extends Mob {
 						return true;
 					}
 				}
-				ghoul.HP = Math.round(ghoul.HT/10f);
+				ghoul.HP =ghoul.rebirthHP();
 				ghoul.beingLifeLinked = false;
 				Actor.add(ghoul);
 				ghoul.timeToNow();
 				Dungeon.level.mobs.add(ghoul);
 				Dungeon.level.occupyCell( ghoul );
 				ghoul.sprite.idle();
-				ghoul.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(Math.round(ghoul.HT/10f)), FloatingText.HEALING);
+				ghoul.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(ghoul.rebirthHP()), FloatingText.HEALING);
 				super.detach();
 				return true;
 			}

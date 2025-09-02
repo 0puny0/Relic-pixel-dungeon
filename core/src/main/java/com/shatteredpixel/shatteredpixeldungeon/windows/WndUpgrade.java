@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAbility;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
@@ -410,6 +411,11 @@ public class WndUpgrade extends Window {
 				} else if (upgrader instanceof MagicalInfusion){
 					((MagicalInfusion) upgrader).useAnimation();
 					upgraded = ((MagicalInfusion) upgrader).upgradeItem(toUpgrade);
+				}else if(upgrader instanceof ScrollOfAbility){
+					ScrollOfUpgrade scroll=new ScrollOfUpgrade();
+					scroll.readAnimation();
+					upgraded =scroll.upgradeItem(toUpgrade);
+					Sample.INSTANCE.play( Assets.Sounds.READ );//换成锻造声
 				}
 
 				if (!force) upgrader.detach(Dungeon.hero.belongings.backpack);

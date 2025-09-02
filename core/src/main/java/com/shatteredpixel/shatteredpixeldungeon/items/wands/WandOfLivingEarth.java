@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Clotting;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.PowerOfMany;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.Stasis;
@@ -388,10 +389,7 @@ public class WandOfLivingEarth extends DamageWand {
 				this.wandLevel = wandLevel;
 				HT = 16 + 8 * wandLevel;
 			}
-			if (HP != 0 && sprite != null){
-				sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healthToAdd), FloatingText.HEALING);
-			}
-			HP = Math.min(HT, HP + healthToAdd);
+			heal(healthToAdd,false);
 			//half of hero's evasion
 			defenseSkill = (hero.lvl + 4)/2;
 		}

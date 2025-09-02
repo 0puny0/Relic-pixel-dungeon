@@ -70,10 +70,7 @@ public class CrystalGuardian extends Mob{
 	protected boolean act() {
 		if (recovering){
 			throwItems();
-			HP = Math.min(HT, HP+5);
-			if (Dungeon.level.heroFOV[pos]) {
-				sprite.showStatusWithIcon(CharSprite.POSITIVE, "5", FloatingText.HEALING);
-			}
+			heal(5,false);
 			if (HP == HT){
 				recovering = false;
 				if (sprite instanceof CrystalGuardianSprite) ((CrystalGuardianSprite) sprite).endCrumple();

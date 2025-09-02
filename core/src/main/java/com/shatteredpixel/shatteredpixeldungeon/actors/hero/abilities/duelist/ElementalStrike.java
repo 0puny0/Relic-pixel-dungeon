@@ -259,11 +259,7 @@ public class ElementalStrike extends ArmorAbility {
 		} else if (ench instanceof Vampiric){
 			if (targetsHit > 0){
 				int heal = Math.round(2.5f*targetsHit*powerMulti);
-				heal = Math.min( heal, hero.HT - hero.HP );
-				if (heal > 0){
-					hero.HP += heal;
-					hero.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString( heal ), FloatingText.HEALING );
-				}
+				hero.heal(heal,false);
 			}
 
 		//*** Sacrificial ***

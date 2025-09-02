@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.bags;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -188,6 +189,19 @@ public class Bag extends Item implements Iterable<Item> {
 			}
 		}
 		return false;
+	}
+	public synchronized  <T extends Item> T Search(Class<T> c ) {
+		for (Item i : items) {
+			if (i.getClass() == c) {
+				return (T)i;
+			}else if(i instanceof Bag ){
+				Item i1= ((Bag)i).Search(c);
+				if (i1!=null){
+					return (T)i1;
+				}
+			}
+		}
+		return null;
 	}
 
 	public boolean canHold( Item item ){

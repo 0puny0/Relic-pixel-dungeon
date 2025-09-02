@@ -172,12 +172,7 @@ public class Necromancer extends Mob {
 			if (sprite.visible || mySkeleton.sprite.visible) {
 				sprite.parent.add(new Beam.HealthRay(sprite.center(), mySkeleton.sprite.center()));
 			}
-			
-			mySkeleton.HP = Math.min(mySkeleton.HP + mySkeleton.HT/5, mySkeleton.HT);
-			if (mySkeleton.sprite.visible) {
-				mySkeleton.sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString( mySkeleton.HT/5 ), FloatingText.HEALING );
-			}
-			
+			mySkeleton.heal(mySkeleton.HT/5,false);
 		//otherwise give it adrenaline
 		} else if (mySkeleton.buff(Adrenaline.class) == null) {
 

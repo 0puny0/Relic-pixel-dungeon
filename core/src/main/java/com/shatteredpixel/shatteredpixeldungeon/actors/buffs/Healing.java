@@ -49,18 +49,8 @@ public class Healing extends Buff {
 	
 	@Override
 	public boolean act(){
-
-		if (target.HP < target.HT) {
-			target.HP = Math.min(target.HT, target.HP + healingThisTick());
-
-			if (target.HP == target.HT && target instanceof Hero) {
-				((Hero) target).resting = false;
-			}
-		}
-
-		target.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healingThisTick()), FloatingText.HEALING);
+		target.heal(healingThisTick(),false);
 		healingLeft -= healingThisTick();
-		
 		if (healingLeft <= 0){
 			if (target instanceof Hero) {
 				((Hero) target).resting = false;

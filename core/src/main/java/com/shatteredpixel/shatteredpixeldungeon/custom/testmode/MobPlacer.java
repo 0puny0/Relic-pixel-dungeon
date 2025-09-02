@@ -1,6 +1,5 @@
 package com.shatteredpixel.shatteredpixeldungeon.custom.testmode;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -13,8 +12,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.ArmoredBrute;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.ArmoredStatue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bandit;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bat;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.BloodBat;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Brute;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CausticSlime;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CorrosionSpinner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Crab;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CrystalGuardian;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CrystalMimic;
@@ -23,9 +24,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.CrystalWisp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM100;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM200;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM201;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM101;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DemonSpawner;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DevilEye;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.EbonyMimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.EliteGhoul;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.EliteSuccubus;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Eye;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.FetidRat;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Ghoul;
@@ -38,12 +43,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GoldenMimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Golem;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GreatCrab;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Guard;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.HiddenWarlock;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Necromancer;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.PhantomPiranha;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.PoisonousSnake;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.RipperDemon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.RotHeart;
@@ -59,8 +66,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Spinner;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Statue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Succubus;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.SwordSkeleton;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.TormentedSpirit;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.WarGolem;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Warden;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Warlock;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Wraith;
 import com.shatteredpixel.shatteredpixeldungeon.custom.dict.DictSpriteSheet;
@@ -75,7 +85,6 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.StatueSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.CheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.OptionSlider;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
@@ -84,10 +93,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Reflection;
 
-import java.awt.Checkbox;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 
 public class MobPlacer extends TestItem {
@@ -419,6 +425,7 @@ public class MobPlacer extends TestItem {
         //TESTRAT(TestRat.class, DictSpriteSheet.RAT),
         GNOLL(Gnoll.class, DictSpriteSheet.GNOLL),
         SNAKE(Snake.class, DictSpriteSheet.SNAKE),
+        POISONOUSSNAKE(PoisonousSnake.class,DictSpriteSheet.SNAKE),
         ALBINO(Albino.class, DictSpriteSheet.ALBINO),
         CRAB(Crab.class, DictSpriteSheet.CRAB),
         SWARM(Swarm.class, DictSpriteSheet.SWARM),
@@ -429,10 +436,13 @@ public class MobPlacer extends TestItem {
         GREAT_CRAB(GreatCrab.class, DictSpriteSheet.GREAT_CRAB),
 
         SKELETON(Skeleton.class, DictSpriteSheet.SKELETON),
+        SWORDSKELETON(SwordSkeleton.class,DictSpriteSheet.SKELETON),
         THIEF(Thief.class, DictSpriteSheet.THIEF),
         BANDIT(Bandit.class, DictSpriteSheet.BANDIT),
         DM100(DM100.class, DictSpriteSheet.DM100),
+        DM99(DM101.class,DictSpriteSheet.DM100),
         GUARD(Guard.class, DictSpriteSheet.GUARD),
+        WARDEN(Warden.class,DictSpriteSheet.GUARD),
         NECRO(Necromancer.class, DictSpriteSheet.NECROMANCER),
         SPECTRAL_NECRO(SpectralNecromancer.class, DictSpriteSheet.SPECTRAL_NECROMANCER),
         ROT_LASHER(RotLasher.class, DictSpriteSheet.ROT_LASHER),
@@ -440,18 +450,23 @@ public class MobPlacer extends TestItem {
         NEW_FIRE_ELE(Elemental.NewbornFireElemental.class, DictSpriteSheet.NEW_FIRE_ELE),
 
         BAT(Bat.class, DictSpriteSheet.BAT),
+        BLOODBAT(BloodBat.class, DictSpriteSheet.BRUTE),
         BRUTE(Brute.class, DictSpriteSheet.BRUTE),
         ARMORED_BRUTE(ArmoredBrute.class, DictSpriteSheet.ARMORED_BRUTE),
         SHAMAN(Shaman.random(), DictSpriteSheet.SHAMAN),
         SPINNER(Spinner.class, DictSpriteSheet.SPINNER),
+       CORROSIONSPINNER(CorrosionSpinner.class, DictSpriteSheet.SPINNER),
         DM200(DM200.class, DictSpriteSheet.DM200),
         DM201(DM201.class, DictSpriteSheet.DM201),
 
         GHOUL(Ghoul.class, DictSpriteSheet.GHOUL),
+        ELITEGHOUL(EliteGhoul.class, DictSpriteSheet.GHOUL),
         WARLOCK(Warlock.class, DictSpriteSheet.WARLOCK),
+        HIDDENWARLOCK(HiddenWarlock.class, DictSpriteSheet.WARLOCK),
         MONK(Monk.class, DictSpriteSheet.MONK),
         SENIOR(Senior.class, DictSpriteSheet.SENIOR),
         GOLEM(Golem.class, DictSpriteSheet.GOLEM),
+        WARGOLEM(WarGolem.class, DictSpriteSheet.GOLEM),
         ELE_FIRE(Elemental.FireElemental.class, DictSpriteSheet.ELEMENTAL_FIRE),
         ELE_FROST(Elemental.FrostElemental.class, DictSpriteSheet.ELEMENTAL_FROST),
         ELE_LIGHTNING(Elemental.ShockElemental.class, DictSpriteSheet.ELEMENTAL_SHOCK),
@@ -460,7 +475,9 @@ public class MobPlacer extends TestItem {
         RIPPER(RipperDemon.class, DictSpriteSheet.RIPPER),
         SPAWNER(DemonSpawner.class, DictSpriteSheet.SPAWNER),
         EYE(Eye.class, DictSpriteSheet.EYE),
+        DEVILEYE(DevilEye.class,DictSpriteSheet.EYE),
         SUCCUBUS(Succubus.class, DictSpriteSheet.SUCCUBUS),
+        ELITESUCCUBUS(EliteSuccubus.class, DictSpriteSheet.SUCCUBUS),
         SCORPIO(Scorpio.class, DictSpriteSheet.SCORPIO),
         ACIDIC(Acidic.class, DictSpriteSheet.AICDIC),
 

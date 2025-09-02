@@ -107,7 +107,6 @@ public class Goo extends Mob {
 		}
 
 		if (!flying && Dungeon.level.water[pos] && HP < HT) {
-			HP += healInc;
 			Statistics.qualifiedForBossChallengeBadge = false;
 
 			LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
@@ -115,10 +114,7 @@ public class Goo extends Mob {
 				if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES))   lock.removeTime(healInc);
 				else                                                    lock.removeTime(healInc*1.5f);
 			}
-
-			if (Dungeon.level.heroFOV[pos] ){
-				sprite.showStatusWithIcon( CharSprite.POSITIVE, Integer.toString(healInc), FloatingText.HEALING );
-			}
+            heal(healInc,false);
 			if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES) && healInc < 3) {
 				healInc++;
 			}

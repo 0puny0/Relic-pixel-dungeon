@@ -317,11 +317,9 @@ public class WandOfWarding extends Wand {
 					heal = Math.round(16 * healFactor);
 					break;
 			}
-
-			HP = Math.min(HT, HP+heal);
-			if (sprite != null) sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(heal), FloatingText.HEALING);
-
+			heal(heal,false);
 		}
+
 
 		@Override
 		public int defenseSkill(Char enemy) {

@@ -97,16 +97,7 @@ public class Sungrass extends Plant {
 				level -= healThisTurn;
 
 				if (target.HP < target.HT) {
-
-					target.HP += healThisTurn;
-					target.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healThisTurn), FloatingText.HEALING);
-
-					if (target.HP >= target.HT) {
-						target.HP = target.HT;
-						if (target instanceof Hero) {
-							((Hero) target).resting = false;
-						}
-					}
+					target.heal(healThisTurn,false);
 				}
 			}
 			

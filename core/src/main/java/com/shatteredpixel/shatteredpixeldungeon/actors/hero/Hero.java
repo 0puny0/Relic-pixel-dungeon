@@ -1658,7 +1658,7 @@ public class Hero extends Char {
 			}
 		}
 	}
-	
+
 	public void checkVisibleMobs() {
 		ArrayList<Mob> visible = new ArrayList<>();
 
@@ -1737,7 +1737,15 @@ public class Hero extends Char {
 			}
 		}
 	}
-	
+
+	@Override
+	public void heal(int tick,boolean turnShield) {
+		super.heal(tick,turnShield);
+		if (HP == HT ) {
+			resting = false;
+		}
+	}
+
 	public int visibleEnemies() {
 		return visibleEnemies.size();
 	}

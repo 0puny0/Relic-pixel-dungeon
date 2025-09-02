@@ -49,13 +49,8 @@ public class WellFed extends Buff {
 				((Hero) target).resting = false;
 			}
 			return true;
-		} else if (left % 18 == 0 && target.HP < target.HT){
-			target.HP += 1;
-			target.sprite.showStatusWithIcon(CharSprite.POSITIVE, "1", FloatingText.HEALING);
-
-			if (target.HP == target.HT && target instanceof Hero) {
-				((Hero) target).resting = false;
-			}
+		} else if (left % 18 == 0 ){
+			target.heal(1,false);
 		}
 
 		//salt cube does slow this buff down, but doesn't lessen the bonus health

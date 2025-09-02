@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.custom.testmode.generator.TestRi
 import com.shatteredpixel.shatteredpixeldungeon.custom.testmode.generator.TestValue;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Stithy;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -136,6 +137,7 @@ public enum HeroClass {
 		waterskin.collect();
 
 		new ScrollOfIdentify().identify();
+		new ScrollOfAbility().identify();
 
 		switch (this) {
 			case WARRIOR:
@@ -206,7 +208,6 @@ public enum HeroClass {
 		}
 
 		new PotionOfHealing().identify();
-		new ScrollOfRage().identify();
 	}
 
 	private static void initMage( Hero hero ) {
@@ -219,7 +220,6 @@ public enum HeroClass {
 
 		Dungeon.quickslot.setSlot(0, staff);
 
-		new ScrollOfAbility().identify();
 		new PotionOfLiquidFlame().identify();
 	}
 
@@ -236,7 +236,6 @@ public enum HeroClass {
 		Dungeon.quickslot.setSlot(0, cloak);
 		Dungeon.quickslot.setSlot(1, knives);
 
-		new ScrollOfMagicMapping().identify();
 		new PotionOfInvisibility().identify();
 	}
 
@@ -249,7 +248,6 @@ public enum HeroClass {
 		Dungeon.quickslot.setSlot(0, bow);
 
 		new PotionOfMindVision().identify();
-		new ScrollOfLullaby().identify();
 	}
 
 	private static void initDuelist( Hero hero ) {
@@ -264,7 +262,6 @@ public enum HeroClass {
 		Dungeon.quickslot.setSlot(1, spikes);
 
 		new PotionOfStrength().identify();
-		new ScrollOfMirrorImage().identify();
 	}
 
 	private static void initCleric( Hero hero ) {
@@ -279,7 +276,6 @@ public enum HeroClass {
 		Dungeon.quickslot.setSlot(0, tome);
 
 		new PotionOfPurity().identify();
-		new ScrollOfRemoveCurse().identify();
 	}
 
 	public String title() {
@@ -372,7 +368,7 @@ public enum HeroClass {
 		//TODO 临时测试道具
 		new ScrollOfAbility().quantity(100).collect();
 		new ScrollOfUpgrade().quantity(10).collect();
-
+		new Stithy().collect();
 
 
 

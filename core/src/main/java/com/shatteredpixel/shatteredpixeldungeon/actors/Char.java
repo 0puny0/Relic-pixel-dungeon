@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArcaneArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
@@ -41,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Clotting;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
@@ -1027,6 +1029,26 @@ public abstract class Char extends Actor {
 			die( src );
 		} else if (HP == 0 && buff(DeathMark.DeathMarkTracker.class) != null){
 			DeathMark.processFearTheReaper(this);
+		}
+	}
+
+	public void heal(int tick,boolean turnShield){
+		if(buff(Clotting.class)!=null&&tick>1){
+			tick=Math.round(tick/2f);
+		}
+		if(turnShield&&tick>HT-HP){
+			int shielding=tick-(HT-HP);
+			HP=HT;
+			Buff.affect(this, Barrier.class).incShield(shielding);
+			if (Dungeon.level.heroFOV[pos]&&sprite!=null&&sprite.visible){
+				sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(HT-HP), FloatingText.HEALING);
+				sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(shielding), FloatingText.SHIELDING);
+			}
+		}else {
+			HP = Math.min(HT, HP + tick);
+			if(tick!=0&&Dungeon.level.heroFOV[pos]&&sprite!=null&&sprite.visible){
+				sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(tick), FloatingText.HEALING);
+			}
 		}
 	}
 

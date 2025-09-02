@@ -93,24 +93,9 @@ public class WandOfTransfusion extends DamageWand {
 				int selfDmg = Math.round(curUser.HT*0.05f);
 				
 				int healing = selfDmg + 3*(buffedLvl()+Dungeon.hero.mageMastery);
-				int shielding = (ch.HP + healing) - ch.HT;
-				if (shielding > 0){
-					healing -= shielding;
-					Buff.affect(ch, Barrier.class).setShield(shielding);
-				} else {
-					shielding = 0;
-				}
-				
-				ch.HP += healing;
-				
+				ch.heal(healing,true);
+
 				ch.sprite.emitter().burst(Speck.factory(Speck.HEALING), 2 + (buffedLvl()+Dungeon.hero.mageMastery) / 2);
-				if (healing > 0) {
-					ch.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healing), FloatingText.HEALING);
-				}
-				if (shielding > 0){
-					ch.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(shielding), FloatingText.SHIELDING);
-				}
-				
 				if (!freeCharge) {
 					damageHero(selfDmg);
 				} else {

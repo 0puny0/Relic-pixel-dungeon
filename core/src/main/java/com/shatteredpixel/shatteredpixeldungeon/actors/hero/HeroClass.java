@@ -138,6 +138,7 @@ public enum HeroClass {
 
 		new ScrollOfIdentify().identify();
 		new ScrollOfAbility().identify();
+		new PotionOfHealing().identify();
 
 		switch (this) {
 			case WARRIOR:
@@ -206,8 +207,6 @@ public enum HeroClass {
 			hero.belongings.armor.affixSeal(new BrokenSeal());
 			Catalog.setSeen(BrokenSeal.class); //as it's not added to the inventory
 		}
-
-		new PotionOfHealing().identify();
 	}
 
 	private static void initMage( Hero hero ) {
@@ -219,8 +218,6 @@ public enum HeroClass {
 		hero.belongings.weapon.activate(hero);
 
 		Dungeon.quickslot.setSlot(0, staff);
-
-		new PotionOfLiquidFlame().identify();
 	}
 
 	private static void initRogue( Hero hero ) {
@@ -235,8 +232,6 @@ public enum HeroClass {
 
 		Dungeon.quickslot.setSlot(0, cloak);
 		Dungeon.quickslot.setSlot(1, knives);
-
-		new PotionOfInvisibility().identify();
 	}
 
 	private static void initHuntress( Hero hero ) {
@@ -246,8 +241,6 @@ public enum HeroClass {
 		bow.identify().collect();
 
 		Dungeon.quickslot.setSlot(0, bow);
-
-		new PotionOfMindVision().identify();
 	}
 
 	private static void initDuelist( Hero hero ) {
@@ -260,8 +253,6 @@ public enum HeroClass {
 
 		Dungeon.quickslot.setSlot(0, hero.belongings.weapon);
 		Dungeon.quickslot.setSlot(1, spikes);
-
-		new PotionOfStrength().identify();
 	}
 
 	private static void initCleric( Hero hero ) {
@@ -274,8 +265,6 @@ public enum HeroClass {
 		hero.belongings.artifact.activate( hero );
 
 		Dungeon.quickslot.setSlot(0, tome);
-
-		new PotionOfPurity().identify();
 	}
 
 	public String title() {

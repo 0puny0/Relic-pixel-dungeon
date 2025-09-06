@@ -318,16 +318,20 @@ public class MeleeWeapon extends Weapon {
 	
 	@Override
 	public String info() {
+		String intro=super.info();
+		String info="";
+		//武器属性
+		if (levelKnown){
+			info +=Messages.get(MeleeWeapon.class,"attribute",tier,STRReq(),augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
+		}else{
+			info +=Messages.get(MeleeWeapon.class,"attribute",tier,STRReq(0),min(0), max(0));
+		}
 
-		String info = super.info();
-
+		//武器介绍
+		info+="\n\n" +intro;
+		//武器伤害
 		if (levelKnown) {
-			if (isEquipped(Dungeon.hero)){
-				info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min(Dungeon.hero)), augment.damageFactor(max(Dungeon.hero)), STRReq());
-			}else {
-				info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-			}
-
+			info += "\n\n" + Messages.get(MeleeWeapon.class, "damage", augment.damageFactor(min(Dungeon.hero)), augment.damageFactor(max(Dungeon.hero)));
 			if (Dungeon.hero != null) {
 				if (STRReq() > Dungeon.hero.STR()) {
 					info += " " + Messages.get(Weapon.class, "too_heavy");
@@ -336,15 +340,17 @@ public class MeleeWeapon extends Weapon {
 				}
 			}
 		} else {
-			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
+			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown",  min(0), max(0));
 			if (Dungeon.hero != null && STRReq(0) > Dungeon.hero.STR()) {
 				info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
 			}
 		}
 
+		//武器效果描述
 		String statsInfo = statsInfo();
 		if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
 
+		//武器改造
 		switch (augment) {
 			case SPEED:
 				info += " " + Messages.get(Weapon.class, "faster");
@@ -355,6 +361,7 @@ public class MeleeWeapon extends Weapon {
 			case NONE:
 		}
 
+		//神圣武器
 		if (isEquipped(Dungeon.hero) && !hasCurseEnchant() && Dungeon.hero.buff(HolyWeapon.HolyWepBuff.class) != null
 				&& (Dungeon.hero.subClass != HeroSubClass.PALADIN || enchantment == null)){
 			info += "\n\n" + Messages.capitalize(Messages.get(Weapon.class, "enchanted", Messages.get(HolyWeapon.class, "ench_name", Messages.get(Enchantment.class, "enchant"))));
@@ -367,6 +374,7 @@ public class MeleeWeapon extends Weapon {
 			info += "\n\n" + Messages.get(Weapon.class, "hardened_no_enchant");
 		}
 
+		//诅咒和附魔状态提示
 		if (cursed && isEquipped( Dungeon.hero )) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
@@ -379,7 +387,7 @@ public class MeleeWeapon extends Weapon {
 			}
 		}
 
-		//the mage's staff has no ability as it can only be gained by the mage
+		//武技描述the mage's staff has no ability as it can only be gained by the mage
 		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.DUELIST && !(this instanceof MagesStaff)){
 			info += "\n\n" + abilityInfo();
 		}

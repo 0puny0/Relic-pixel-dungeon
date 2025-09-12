@@ -273,10 +273,6 @@ public class MeleeWeapon extends Weapon {
 		if (owner instanceof Hero){
 			//TODO 在此结算所有伤害加成效果
 			Hero hero=(Hero) owner;
-			int exStr = hero.STR() - STRReq();
-			if (exStr > 0) {
-				max+=exStr;
-			}
 		}
 		return max;
 	}

@@ -803,6 +803,17 @@ public class ItemSpriteSheet {
 		assignItemRect(HALLS_PAGE,  10, 11);
 	}
 
+	private static final int NEW_WEAPON     =                               xy(1, 34);
+	public static final int  TEN_MU_1= NEW_WEAPON+0;
+	public static final int  TEN_MU_2= NEW_WEAPON+1;
+	public static final int  TEN_MU_3= NEW_WEAPON+2;
+	static{
+		assignItemRect(TEN_MU_1, 14, 13);
+		assignItemRect(TEN_MU_2, 16, 16);
+		assignItemRect(TEN_MU_3, 14, 14);
+
+	}
+
 	//for smaller 8x8 icons that often accompany an item sprite
 	public static class Icons {
 

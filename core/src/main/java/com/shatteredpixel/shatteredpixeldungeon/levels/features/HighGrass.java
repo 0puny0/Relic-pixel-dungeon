@@ -34,14 +34,20 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Camouflage;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Berry;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.PetrifiedSeed;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier2.TenMu_1;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.TenMu_2;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.TenMu_3;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.MiningLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Random;
 
 public class HighGrass {
@@ -55,9 +61,9 @@ public class HighGrass {
 		if (freezeTrample) return;
 		
 		Char ch = Actor.findChar(pos);
-		
 		if (level.map[pos] == Terrain.FURROWED_GRASS){
 			if (ch instanceof Hero){
+				TenMuEffect(((Hero)ch),pos);
 				//Do nothing
 				freezeTrample = true;
 			} else {
@@ -67,11 +73,12 @@ public class HighGrass {
 		} else {
 			if (ch instanceof Hero ){
 				Level.set(pos, Terrain.FURROWED_GRASS);
+				TenMuEffect(((Hero)ch),pos);
 				freezeTrample = true;
 			} else {
 				Level.set(pos, Terrain.GRASS);
 			}
-			
+
 			int naturalismLevel = 0;
 			
 			if (ch != null) {
@@ -85,7 +92,7 @@ public class HighGrass {
 					}
 				}
 
-				//berries try to drop on floors 2/3/4/6/7/8, to a max of 4/6
+				//女猎浆果掉落berries try to drop on floors 2/3/4/6/7/8, to a max of 4/6
 				if (ch instanceof Hero && ((Hero) ch).hasTalent(Talent.NATURES_BOUNTY)){
 					int berriesAvailable = 2 + 2*((Hero) ch).pointsInTalent(Talent.NATURES_BOUNTY);
 
@@ -160,6 +167,22 @@ public class HighGrass {
 			
 			CellEmitter.get(pos).burst(LeafParticle.LEVEL_SPECIFIC, 4);
 			if (Dungeon.level.heroFOV[pos]) Dungeon.observe();
+		}
+	}
+	private static void  TenMuEffect(Hero hero,int pos){
+		KindOfWeapon wep=hero.belongings.weapon;
+		if (wep instanceof TenMu_1){
+			Level.set(pos, Terrain.EMPTY);
+			((TenMu_1) wep).count++;
+			hero.heal(1,false);
+		}else if (wep instanceof TenMu_2){
+			Level.set(pos, Terrain.EMPTY);
+			((TenMu_2) wep).count++;
+			hero.heal(2,false);
+		}else if (wep instanceof TenMu_3){
+			Level.set(pos, Terrain.EMPTY);
+			((TenMu_3) wep).counts[Dungeon.depth]++;
+			hero.heal(3,false);
 		}
 	}
 }

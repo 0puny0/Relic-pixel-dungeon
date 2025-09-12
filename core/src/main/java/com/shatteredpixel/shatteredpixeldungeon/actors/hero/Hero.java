@@ -695,7 +695,7 @@ public class Hero extends Char {
 		return dmg;
 	}
 
-	//damage rolls that come from the hero can have their RNG influenced by clover
+	//英雄的伤害骰受到四叶草影响damage rolls that come from the hero can have their RNG influenced by clover
 	public static int heroDamageIntRange(int min, int max ){
 		if (Random.Float() < ThirteenLeafClover.alterHeroDamageChance()){
 			return ThirteenLeafClover.alterDamageRoll(min, max);

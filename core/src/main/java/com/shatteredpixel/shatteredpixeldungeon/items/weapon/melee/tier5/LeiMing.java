@@ -19,76 +19,76 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ThirteenLeafClover;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.utils.Random;
 
-public class YongYan extends MeleeWeapon {
+public class LeiMing extends MeleeWeapon {
 
 	{
-		image = ItemSpriteSheet.YONG_YAN;
+		image = ItemSpriteSheet.LEI_MING;
 		hitSound = Assets.Sounds.HIT_SLASH;
-		hitSoundPitch = 1.2f;
+		hitSoundPitch = 1.1f;
 
-		tier = 3;
+		tier = 5;
 	}
 
 	@Override
-	public int min(int lvl){
-		if (Dungeon.hero.buff(Burning.class)!=null){
-			return maxAttrib();
+	public int min(int lvl) {
+		return 1;
+	}
+	@Override
+	public int max(int lvl) {
+		return  40+8*lvl;
+	}
+
+	@Override
+	public int damageRoll(Char owner) {
+		int damage;
+		if (owner instanceof Hero){
+			if (Random.Float() < ThirteenLeafClover.alterHeroDamageChance()){
+				damage=ThirteenLeafClover.alterDamageRoll(minDamage(owner), maxDamage(owner));
+			} else {
+				damage=Random.IntRange(minDamage(owner), maxDamage(owner));
+			}
 		}else {
-			return super.min(lvl);
+			damage=damageRoll(owner);
 		}
+		return augment.damageFactor(damage);
 	}
 
 	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		if (Random.Float()<0.35f){
-			Buff.affect(defender,Burning.class).reignite( defender);
-		}
-		if (Random.Float()<0.05f){
-			Buff.affect(attacker,Burning.class).reignite( attacker);
-		}
-		return super.proc(attacker, defender, damage);
+	public String targetingPrompt() {
+		return Messages.get(this, "prompt");
 	}
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		beforeAbilityUsed(hero, null);
-		//1 turn less as using the ability is instant
-		Buff.affect(hero, Burning.class).reignite(hero);
-		Buff.prolong(hero, Scimitar.SwordDance.class, 3+buffedLvl()+hero.weaponMastery);
-		hero.sprite.operate(hero.pos);
-		hero.next();
-		afterAbilityUsed(hero);
+		//伤害*150%
+		Rapier.lungeAbility(hero, target, 1.5f, 0, this);
 	}
 
 	@Override
 	public String abilityInfo() {
+		Hero hero= Dungeon.hero;
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", 4+buffedLvl()+ Dungeon.hero.weaponMastery);
+			return Messages.get(this, "ability_desc", 1, augment.damageFactor(Math.round(maxDamage(hero)*1.5f)));
 		} else {
-			return Messages.get(this, "typical_ability_desc", 4);
+			return Messages.get(this, "typical_ability_desc", min(0), Math.round(max(0)*1.5f));
 		}
 	}
 
-	@Override
-	public String upgradeAbilityStat(int level) {
-		return Integer.toString(4+level);
+	public String upgradeAbilityStat(int level){
+		return augment.damageFactor(min(level)) + "-" + augment.damageFactor(Math.round(max(level)*1.5f));
 	}
-
 
 }

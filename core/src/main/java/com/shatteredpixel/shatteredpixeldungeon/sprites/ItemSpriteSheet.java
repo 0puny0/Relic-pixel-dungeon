@@ -808,11 +808,15 @@ public class ItemSpriteSheet {
 	public static final int  TEN_MU_2= NEW_WEAPON+1;
 	public static final int  TEN_MU_3= NEW_WEAPON+2;
 	public static final int  YONG_YAN= NEW_WEAPON+3;
+	public static final int  NING_BING= NEW_WEAPON+4;
+	public static final int  LEI_MING= NEW_WEAPON+5;
 	static{
 		assignItemRect(TEN_MU_1, 14, 13);
 		assignItemRect(TEN_MU_2, 16, 16);
 		assignItemRect(TEN_MU_3, 14, 14);
 		assignItemRect(YONG_YAN, 14, 16);
+		assignItemRect(NING_BING, 16, 15);
+		assignItemRect(LEI_MING, 15, 16);
 
 	}
 

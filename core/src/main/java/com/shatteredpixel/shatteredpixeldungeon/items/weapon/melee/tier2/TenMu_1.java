@@ -100,7 +100,6 @@ public class TenMu_1 extends MeleeWeapon {
 				break;
 			}
 		}
-		GLog.p();
 		updateQuickslot();
 	}
 

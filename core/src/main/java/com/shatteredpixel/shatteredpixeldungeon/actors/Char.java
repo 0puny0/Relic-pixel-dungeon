@@ -135,6 +135,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kineti
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.YongYan;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -986,13 +987,19 @@ public abstract class Char extends Actor {
 		}
 		
 		if (sprite != null) {
+			//TODO 优化伤害类型
 			//defaults to normal damage icon if no other ones apply
 			int                                                         icon = FloatingText.PHYS_DMG;
 			if (NO_ARMOR_PHYSICAL_SOURCES.contains(src.getClass()))     icon = FloatingText.PHYS_DMG_NO_BLOCK;
 			if (AntiMagic.RESISTS.contains(src.getClass()))             icon = FloatingText.MAGIC_DMG;
 			if (src instanceof Pickaxe)                                 icon = FloatingText.PICK_DMG;
-
-			//special case for sniper when using ranged attacks
+			//永焰武器攻击显示
+			if (src == Dungeon.hero
+					&& Dungeon.hero.belongings.attackingWeapon() instanceof YongYan){
+				icon = FloatingText.BURNING;
+			}
+			//凝冰武器显示
+			//狙击手破甲攻击显示special case for sniper when using ranged attacks
 			if (src == Dungeon.hero
 					&& Dungeon.hero.subClass == HeroSubClass.SNIPER
 					&& !Dungeon.level.adjacent(Dungeon.hero.pos, pos)
@@ -1000,12 +1007,11 @@ public abstract class Char extends Actor {
 				icon = FloatingText.PHYS_DMG_NO_BLOCK;
 			}
 
-			//special case for monk using unarmed abilities
+			//武僧破甲攻击显示special case for monk using unarmed abilities
 			if (src == Dungeon.hero
 					&& Dungeon.hero.buff(MonkEnergy.MonkAbility.UnarmedAbilityTracker.class) != null){
 				icon = FloatingText.PHYS_DMG_NO_BLOCK;
 			}
-
 			if (src instanceof Hunger)                                  icon = FloatingText.HUNGER;
 			if (src instanceof Burning)                                 icon = FloatingText.BURNING;
 			if (src instanceof Chill || src instanceof Frost)           icon = FloatingText.FROST;

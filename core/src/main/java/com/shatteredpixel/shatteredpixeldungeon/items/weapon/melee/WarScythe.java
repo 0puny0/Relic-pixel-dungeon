@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -51,17 +52,17 @@ public class WarScythe extends MeleeWeapon {
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 		//replaces damage with 30+4.5*lvl bleed, roughly 133% avg base dmg, 129% avg scaling
-		int bleedAmt = augment.damageFactor(Math.round(30f + 4.5f*buffedLvl()));
+		int bleedAmt = augment.damageFactor(damageBoost(Math.round(30f + 4.5f*buffedLvl()+4.5f*hero.weaponMastery)) );
 		Sickle.harvestAbility(hero, target, 0f, bleedAmt, this);
 	}
 
 	@Override
 	public String abilityInfo() {
-		int bleedAmt = levelKnown ? Math.round(30f + 4.5f*buffedLvl()) : 30;
+		int bleedAmt =damageBoost(Math.round(30f + 4.5f*buffedLvl()+ 4.5f*Dungeon.hero.weaponMastery))  ;
 		if (levelKnown){
 			return Messages.get(this, "ability_desc", augment.damageFactor(bleedAmt));
 		} else {
-			return Messages.get(this, "typical_ability_desc", bleedAmt);
+			return Messages.get(this, "typical_ability_desc", 30);
 		}
 	}
 

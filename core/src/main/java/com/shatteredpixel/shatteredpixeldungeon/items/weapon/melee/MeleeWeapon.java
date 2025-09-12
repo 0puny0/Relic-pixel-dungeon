@@ -161,7 +161,10 @@ public class MeleeWeapon extends Weapon {
 	public int targetingPos(Hero user, int dst) {
 		return dst; //weapon abilities do not use projectile logic, no autoaim
 	}
-
+	protected int damageBoost(int baseBoost){
+		//TODO 所有伤害加成效果
+		return baseBoost;
+	}
 	protected void duelistAbility( Hero hero, Integer target ){
 		//do nothing by default
 	}
@@ -251,8 +254,9 @@ public class MeleeWeapon extends Weapon {
 				lvl;    //level scaling
 	}
 	@Override
-	public int min(Char owner){
+	public int minDamage(Char owner){
 		if (owner instanceof Hero){
+			//TODO 在此结算所有伤害加成效果
 			return min(buffedLvl()+((Hero) owner).weaponMastery);
 		}else {
 			return min(buffedLvl());
@@ -264,12 +268,17 @@ public class MeleeWeapon extends Weapon {
 				lvl*(tier+1);   //level scaling
 	}
 	@Override
-	public int max(Char owner){
+	public int maxDamage(Char owner){
+		int max=max(buffedLvl());
 		if (owner instanceof Hero){
-			return max(buffedLvl()+((Hero) owner).weaponMastery);
-		}else {
-			return max(buffedLvl());
+			//TODO 在此结算所有伤害加成效果
+			Hero hero=(Hero) owner;
+			int exStr = hero.STR() - STRReq();
+			if (exStr > 0) {
+				max+=exStr;
+			}
 		}
+		return max;
 	}
 	public int STRReq(int lvl){
 		int req = STRReq(tier, lvl);
@@ -306,13 +315,6 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public int damageRoll(Char owner) {
 		int damage = augment.damageFactor(super.damageRoll( owner ));
-
-		if (owner instanceof Hero) {
-			int exStr = ((Hero)owner).STR() - STRReq();
-			if (exStr > 0) {
-				damage += Hero.heroDamageIntRange( 0, exStr );
-			}
-		}
 		return damage;
 	}
 	
@@ -322,26 +324,25 @@ public class MeleeWeapon extends Weapon {
 		String info="";
 		//武器属性
 		if (levelKnown){
-			info +=Messages.get(MeleeWeapon.class,"attribute",tier,STRReq(),augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
+			info +=Messages.get(MeleeWeapon.class,"attribute",tier,STRReq(),augment.damageFactor(minAttrib()), augment.damageFactor(maxAttrib()), STRReq());
 		}else{
 			info +=Messages.get(MeleeWeapon.class,"attribute",tier,STRReq(0),min(0), max(0));
 		}
 
 		//武器介绍
 		info+="\n\n" +intro;
+		Hero hero=Dungeon.hero;
 		//武器伤害
 		if (levelKnown) {
-			info += "\n\n" + Messages.get(MeleeWeapon.class, "damage", augment.damageFactor(min(Dungeon.hero)), augment.damageFactor(max(Dungeon.hero)));
-			if (Dungeon.hero != null) {
-				if (STRReq() > Dungeon.hero.STR()) {
+			if (hero != null) {
+				info += "\n\n" + Messages.get(MeleeWeapon.class, "damage", augment.damageFactor(minDamage(hero)), augment.damageFactor(maxDamage(hero)));
+				if (STRReq() > hero.STR()) {
 					info += " " + Messages.get(Weapon.class, "too_heavy");
-				} else if (Dungeon.hero.STR() > STRReq()) {
-					info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
 				}
 			}
 		} else {
 			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown",  min(0), max(0));
-			if (Dungeon.hero != null && STRReq(0) > Dungeon.hero.STR()) {
+			if (hero != null && STRReq(0) > hero.STR()) {
 				info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
 			}
 		}

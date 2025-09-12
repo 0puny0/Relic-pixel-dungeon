@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 
 import java.util.ArrayList;
@@ -53,11 +54,13 @@ public class Whip extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-
+		lashAbility(hero,target,1,0,this);
+	}
+	public static void lashAbility(Hero hero, Integer target, float dmgMulti, int dmgBoost, MeleeWeapon wep){
 		ArrayList<Char> targets = new ArrayList<>();
 		Char closest = null;
 
-		hero.belongings.abilityWeapon = this;
+		hero.belongings.abilityWeapon = wep;
 		for (Char ch : Actor.chars()){
 			if (ch.alignment == Char.Alignment.ENEMY
 					&& !hero.isCharmedBy(ch)
@@ -72,34 +75,33 @@ public class Whip extends MeleeWeapon {
 		hero.belongings.abilityWeapon = null;
 
 		if (targets.isEmpty()) {
-			GLog.w(Messages.get(this, "ability_no_target"));
+			GLog.w(Messages.get(wep, "ability_no_target"));
 			return;
 		}
 
-		throwSound();
+		Sample.INSTANCE.play(Assets.Sounds.MISS, 0.6f, 0.6f, 1.5f);
 		Char finalClosest = closest;
 		hero.sprite.attack(hero.pos, new Callback() {
 			@Override
 			public void call() {
-				beforeAbilityUsed(hero, finalClosest);
+				wep.beforeAbilityUsed(hero, finalClosest);
 				for (Char ch : targets) {
 					//ability does no extra damage
-					hero.attack(ch, 1, 0, Char.INFINITE_ACCURACY);
+					hero.attack(ch, dmgMulti, dmgBoost, Char.INFINITE_ACCURACY);
 					if (!ch.isAlive()){
 						onAbilityKill(hero, ch);
 					}
 				}
 				Invisibility.dispel();
 				hero.spendAndNext(hero.attackDelay());
-				afterAbilityUsed(hero);
+				wep.afterAbilityUsed(hero);
 			}
 		});
 	}
-
 	@Override
 	public String abilityInfo() {
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", augment.damageFactor(min()), augment.damageFactor(max()));
+			return Messages.get(this, "ability_desc", augment.damageFactor(minDamage(Dungeon.hero)), augment.damageFactor(maxDamage(Dungeon.hero)));
 		} else {
 			return Messages.get(this, "typical_ability_desc", min(0), max(0));
 		}

@@ -220,7 +220,7 @@ public class NewDictBook extends ChallengeItem {
             baseTier.setPos(3,pos);
             add(baseTier);
 
-            RenderedTextBlock baseAtk = PixelScene.renderTextBlock("基础伤害:" + "_" + weapon.min() + "~" + weapon.max() + "_",7);
+            RenderedTextBlock baseAtk = PixelScene.renderTextBlock("基础伤害:" + "_" + weapon.minAttrib() + "~" + weapon.maxAttrib() + "_",7);
             baseAtk.setPos(45,pos);
             add(baseAtk);
 
@@ -228,8 +228,8 @@ public class NewDictBook extends ChallengeItem {
             baseStr.setPos(3,baseTier.bottom() + 3);
             add(baseStr);
 
-            RenderedTextBlock baseUgd = PixelScene.renderTextBlock("伤害成长:" + "_" + (weapon.min(1) - weapon.min()) + "~" +
-                    (weapon.max(1) - weapon.max()) + "_",7);
+            RenderedTextBlock baseUgd = PixelScene.renderTextBlock("伤害成长:" + "_" + (weapon.min(1) - weapon.minAttrib()) + "~" +
+                    (weapon.max(1) - weapon.maxAttrib()) + "_",7);
             baseUgd.setPos(45,baseAtk.bottom() + 3);
             add(baseUgd);
 

@@ -231,17 +231,17 @@ abstract public class KindOfWeapon extends EquipableItem {
 		}
 	}
 
-	public int min(){
+	public int minAttrib(){
 		return min(buffedLvl());
 	}
-	public int min(Char owner){
+	public int minDamage(Char owner){
 		return min(buffedLvl());
 	}
 
-	public int max(){
+	public int maxAttrib(){
 		return max(buffedLvl());
 	}
-	public int max(Char owner){
+	public int maxDamage(Char owner){
 		return max(buffedLvl());
 	}
 	abstract public int min(int lvl);
@@ -249,9 +249,9 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 	public int damageRoll( Char owner ) {
 		if (owner instanceof Hero){
-			return Hero.heroDamageIntRange(min(owner), max(owner));
+			return Hero.heroDamageIntRange(minDamage(owner), maxDamage(owner));
 		} else {
-			return Random.NormalIntRange(min(), max());
+			return Random.NormalIntRange(minDamage(owner), minDamage(owner));
 		}
 	}
 	

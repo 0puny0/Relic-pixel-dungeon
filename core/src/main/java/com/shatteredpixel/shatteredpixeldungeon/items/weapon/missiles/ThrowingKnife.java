@@ -53,10 +53,10 @@ public class ThrowingKnife extends MissileWeapon {
 			Char enemy = hero.enemy();
 			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
 				//deals 75% toward max to max on surprise, instead of min to max.
-				int diff = max() - min();
+				int diff = maxDamage(hero) - minDamage(hero);
 				int damage = augment.damageFactor(Hero.heroDamageIntRange(
-						min() + Math.round(diff*0.75f),
-						max()));
+						minDamage(hero) + Math.round(diff*0.75f),
+						maxDamage(hero)));
 				int exStr = hero.STR() - STRReq();
 				if (exStr > 0) {
 					damage += Hero.heroDamageIntRange(0, exStr);

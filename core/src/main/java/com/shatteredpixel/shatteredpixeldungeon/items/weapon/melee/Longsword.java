@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -54,17 +55,18 @@ public class Longsword extends MeleeWeapon {
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 		//+(6+lvl) damage, roughly +40% base dmg, +33% scaling
-		int dmgBoost = augment.damageFactor(6 + buffedLvl());
+		int dmgBoost = augment.damageFactor(damageBoost(6 + buffedLvl()+hero.weaponMastery) );
 		Sword.cleaveAbility(hero, target, 1, dmgBoost, this);
 	}
 
 	@Override
 	public String abilityInfo() {
-		int dmgBoost = levelKnown ? 6 + buffedLvl() : 6;
+		Hero hero= Dungeon.hero;
+		int dmgBoost = damageBoost(6 + buffedLvl()+hero.weaponMastery);
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+			return Messages.get(this, "ability_desc", augment.damageFactor(minDamage(hero)+dmgBoost), augment.damageFactor(maxDamage(hero)+dmgBoost));
 		} else {
-			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+			return Messages.get(this, "typical_ability_desc", min(0)+6, max(0)+6);
 		}
 	}
 

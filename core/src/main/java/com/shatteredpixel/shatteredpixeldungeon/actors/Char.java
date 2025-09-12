@@ -403,6 +403,7 @@ public abstract class Char extends Actor {
 
 			//we use a float here briefly so that we don't have to constantly round while
 			// potentially applying various multiplier effects
+			//TODO 将所有伤害加成效果可视化
 			float dmg;
 			Preparation prep = buff(Preparation.class);
 			if (prep != null){

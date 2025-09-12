@@ -23,42 +23,42 @@ package com.shatteredpixel.shatteredpixeldungeon.levels;
 
 public class Terrain {
 
-	public static final int CHASM			= 0;
-	public static final int EMPTY			= 1;
-	public static final int GRASS			= 2;
-	public static final int EMPTY_WELL		= 3;
-	public static final int WALL			= 4;
-	public static final int DOOR			= 5;
-	public static final int OPEN_DOOR		= 6;
-	public static final int ENTRANCE		= 7;
+	public static final int CHASM			= 0;//深坑
+	public static final int EMPTY			= 1;//空
+	public static final int GRASS			= 2;//草根
+	public static final int EMPTY_WELL		= 3;//空井
+	public static final int WALL			= 4;//墙
+	public static final int DOOR			= 5;//门
+	public static final int OPEN_DOOR		= 6;//打开的门
+	public static final int ENTRANCE		= 7;//入口
 	public static final int ENTRANCE_SP		= 37;
-	public static final int EXIT			= 8;
-	public static final int EMBERS			= 9;
-	public static final int LOCKED_DOOR		= 10;
-	public static final int CRYSTAL_DOOR	= 31;
-	public static final int PEDESTAL		= 11;
-	public static final int WALL_DECO		= 12;
-	public static final int BARRICADE		= 13;
+	public static final int EXIT			= 8;//出口
+	public static final int EMBERS			= 9;//余烬
+	public static final int LOCKED_DOOR		= 10;//锁住的门
+	public static final int CRYSTAL_DOOR	= 31;//水晶门
+	public static final int PEDESTAL		= 11;//基座
+	public static final int WALL_DECO		= 12;//
+	public static final int BARRICADE		= 13;//路障
 	public static final int EMPTY_SP		= 14;
-	public static final int HIGH_GRASS		= 15;
-	public static final int FURROWED_GRASS	= 30;
+	public static final int HIGH_GRASS		= 15;//高草
+	public static final int FURROWED_GRASS	= 30;//灰草
 
-	public static final int SECRET_DOOR	    = 16;
-	public static final int SECRET_TRAP     = 17;
-	public static final int TRAP            = 18;
-	public static final int INACTIVE_TRAP   = 19;
+	public static final int SECRET_DOOR	    = 16;//隐藏门
+	public static final int SECRET_TRAP     = 17;//隐藏陷阱
+	public static final int TRAP            = 18;//陷阱
+	public static final int INACTIVE_TRAP   = 19;//损坏陷阱
 
 	public static final int EMPTY_DECO		= 20;
 	public static final int LOCKED_EXIT		= 21;
 	public static final int UNLOCKED_EXIT	= 22;
-	public static final int WELL			= 24;
-	public static final int BOOKSHELF		= 27;
+	public static final int WELL			= 24;//墙
+	public static final int BOOKSHELF		= 27;//书架
 	public static final int ALCHEMY			= 28;
 
 	public static final int CUSTOM_DECO_EMPTY = 32; //regular empty tile that can't be overridden, used for custom visuals mainly
 	//solid environment decorations
 	public static final int CUSTOM_DECO	    = 23; //invisible decoration that will also be a custom visual, re-uses the old terrain ID for signs
-	public static final int STATUE			= 25;
+	public static final int STATUE			= 25;//雕塑
 	public static final int STATUE_SP		= 26;
 	//These decorations are environment-specific
 	public static final int REGION_DECO		= 33;
@@ -66,7 +66,7 @@ public class Terrain {
 	public static final int MINE_CRYSTAL    = 35;
 	public static final int MINE_BOULDER    = 36;
 
-	public static final int WATER		    = 29;
+	public static final int WATER		    = 29;//水
 	
 	public static final int PASSABLE		= 0x01;
 	public static final int LOS_BLOCKING	= 0x02;

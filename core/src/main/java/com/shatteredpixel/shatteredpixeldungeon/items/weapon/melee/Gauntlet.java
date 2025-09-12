@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -51,17 +52,18 @@ public class Gauntlet extends MeleeWeapon {
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 		//+(5+lvl) damage, roughly +50% base damage, +50% scaling
-		int dmgBoost = augment.damageFactor(5 + buffedLvl());
+		int dmgBoost = augment.damageFactor(damageBoost(5 + buffedLvl()+hero.weaponMastery) );
 		Sai.comboStrikeAbility(hero, target, 0, dmgBoost, this);
 	}
 
 	@Override
 	public String abilityInfo() {
-		int dmgBoost = levelKnown ? 5 + buffedLvl() : 5;
+		Hero hero= Dungeon.hero;
+		int dmgBoost =  damageBoost(5 + buffedLvl() +hero.weaponMastery);
 		if (levelKnown){
 			return Messages.get(this, "ability_desc", augment.damageFactor(dmgBoost));
 		} else {
-			return Messages.get(this, "typical_ability_desc", augment.damageFactor(dmgBoost));
+			return Messages.get(this, "typical_ability_desc", augment.damageFactor(5));
 		}
 	}
 

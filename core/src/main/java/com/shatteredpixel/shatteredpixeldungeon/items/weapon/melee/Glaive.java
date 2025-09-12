@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -52,7 +53,7 @@ public class Glaive extends MeleeWeapon {
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 		//+(12+2.5*lvl) damage, roughly +55% base damage, +55% scaling
-		int dmgBoost = augment.damageFactor(12 + Math.round(2.5f*buffedLvl()));
+		int dmgBoost = augment.damageFactor(damageBoost(12 + Math.round(2.5f*buffedLvl()+2.5f*hero.weaponMastery) ));
 		Spear.spikeAbility(hero, target, 1, dmgBoost, this);
 	}
 
@@ -63,11 +64,12 @@ public class Glaive extends MeleeWeapon {
 
 	@Override
 	public String abilityInfo() {
-		int dmgBoost = levelKnown ? 12 + Math.round(2.5f*buffedLvl()) : 12;
+		Hero hero= Dungeon.hero;
+		int dmgBoost = damageBoost(12 + Math.round(2.5f*buffedLvl()+2.5f*hero.weaponMastery));
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+			return Messages.get(this, "ability_desc", augment.damageFactor(minDamage(hero)+dmgBoost), augment.damageFactor(maxDamage(hero)+dmgBoost));
 		} else {
-			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+			return Messages.get(this, "typical_ability_desc", min(0)+12, max(0)+12);
 		}
 	}
 

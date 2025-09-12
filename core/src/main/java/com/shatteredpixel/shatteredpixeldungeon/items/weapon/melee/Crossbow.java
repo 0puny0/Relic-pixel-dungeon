@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -125,8 +126,9 @@ public class Crossbow extends MeleeWeapon {
 
 	@Override
 	public String abilityInfo() {
+		Hero hero= Dungeon.hero;
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", 3+buffedLvl(), 3+buffedLvl());
+			return Messages.get(this, "ability_desc", 3+buffedLvl()+hero.weaponMastery, 3+buffedLvl()+hero.weaponMastery);
 		} else {
 			return Messages.get(this, "typical_ability_desc", 3, 3);
 		}

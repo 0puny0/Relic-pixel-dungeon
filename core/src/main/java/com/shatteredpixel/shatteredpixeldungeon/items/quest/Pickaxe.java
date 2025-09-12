@@ -114,11 +114,11 @@ public class Pickaxe extends MeleeWeapon {
 						|| enemy instanceof Spinner
 						|| enemy instanceof Scorpio) {
 					//+(8+2*lvl) damage, equivalent to +100% damage
-					damageBoost = augment.damageFactor(8 + 2*buffedLvl());
+					damageBoost = damageBoost(8 + 2*buffedLvl()+2*hero.weaponMastery);
 				}
 				beforeAbilityUsed(hero, enemy);
 				AttackIndicator.target(enemy);
-				if (hero.attack(enemy, 1, damageBoost, Char.INFINITE_ACCURACY)) {
+				if (hero.attack(enemy, 1, augment.damageFactor(damageBoost), Char.INFINITE_ACCURACY)) {
 					if (enemy.isAlive()) {
 						Buff.affect(enemy, Vulnerable.class, 3f);
 					} else {
@@ -135,12 +135,12 @@ public class Pickaxe extends MeleeWeapon {
 
 	@Override
 	public String abilityInfo() {
-		int dmgBoost = 8 + 2*buffedLvl();
-		return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+		int dmgBoost = damageBoost(8+ 2*buffedLvl()+2*Dungeon.hero.weaponMastery) ;
+		return Messages.get(this, "ability_desc", augment.damageFactor(minAttrib()+dmgBoost), augment.damageFactor(maxAttrib()+dmgBoost));
 	}
 
 	public String upgradeAbilityStat(int level){
-		int dmgBoost = 8 + 2*level;
+		int dmgBoost =damageBoost(8+ 2*buffedLvl()+2*Dungeon.hero.weaponMastery) ;
 		return augment.damageFactor(min(level)+dmgBoost) + "-" + augment.damageFactor(max(level)+dmgBoost);
 	}
 

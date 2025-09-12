@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -51,14 +52,10 @@ public class Dirk extends MeleeWeapon {
 			Char enemy = hero.enemy();
 			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
 				//deals 67% toward max to max on surprise, instead of min to max.
-				int diff = max(owner) - min(owner);
+				int diff = maxDamage(owner) - minDamage(owner);
 				int damage = augment.damageFactor(Hero.heroDamageIntRange(
-						min(owner) + Math.round(diff*0.67f),
-						max(owner)));
-				int exStr = hero.STR() - STRReq();
-				if (exStr > 0) {
-					damage += Hero.heroDamageIntRange(0, exStr);
-				}
+						minDamage(owner) + Math.round(diff*0.67f),
+						maxDamage(owner)));
 				return damage;
 			}
 		}
@@ -76,13 +73,13 @@ public class Dirk extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		Dagger.sneakAbility(hero, target, 4, 2+buffedLvl(), this);
+		Dagger.sneakAbility(hero, target, 4, 2+buffedLvl()+hero.weaponMastery, this);
 	}
 
 	@Override
 	public String abilityInfo() {
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", 2+buffedLvl());
+			return Messages.get(this, "ability_desc", 2+buffedLvl()+Dungeon.hero.weaponMastery);
 		} else {
 			return Messages.get(this, "typical_ability_desc", 2);
 		}

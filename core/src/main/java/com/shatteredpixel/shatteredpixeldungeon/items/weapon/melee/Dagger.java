@@ -65,14 +65,10 @@ public class Dagger extends MeleeWeapon {
 			Char enemy = hero.enemy();
 			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
 				//deals 75% toward max to max on surprise, instead of min to max.
-				int diff = max(owner) - min(owner);
+				int diff = maxDamage(hero) - minDamage(hero);
 				int damage = augment.damageFactor(Hero.heroDamageIntRange(
-						min(owner) + Math.round(diff*0.75f),
-						max(owner)));
-				int exStr = hero.STR() - STRReq();
-				if (exStr > 0) {
-					damage += Hero.heroDamageIntRange(0, exStr);
-				}
+						minDamage(hero) + Math.round(diff*0.75f),
+						maxDamage(hero)));
 				return damage;
 			}
 		}
@@ -90,13 +86,14 @@ public class Dagger extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-		sneakAbility(hero, target, 5, 2+buffedLvl(), this);
+		sneakAbility(hero, target, 5, 2+buffedLvl()+hero.weaponMastery, this);
 	}
 
 	@Override
 	public String abilityInfo() {
+		Hero hero=Dungeon.hero;
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", 2+buffedLvl());
+			return Messages.get(this, "ability_desc", 2+buffedLvl()+hero.weaponMastery);
 		} else {
 			return Messages.get(this, "typical_ability_desc", 2);
 		}

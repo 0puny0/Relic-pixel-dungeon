@@ -77,7 +77,7 @@ abstract public class MissileWeapon extends Weapon {
 	public int tier;
 	
 	@Override
-	public int min() {
+	public int minAttrib() {
 		if (Dungeon.hero != null){
 			return Math.max(0, min(buffedLvl()+Dungeon.hero.missileMastery+ RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
 		} else {
@@ -92,7 +92,7 @@ abstract public class MissileWeapon extends Weapon {
 	}
 	
 	@Override
-	public int max() {
+	public int maxAttrib() {
 		if (Dungeon.hero != null){
 			return Math.max(0, max( buffedLvl() +Dungeon.hero.missileMastery+ RingOfSharpshooting.levelDamageBonus(Dungeon.hero) ));
 		} else {
@@ -458,8 +458,8 @@ abstract public class MissileWeapon extends Weapon {
 		
 		info += "\n\n" + Messages.get( MissileWeapon.class, "stats",
 				tier,
-				Math.round(augment.damageFactor(min())),
-				Math.round(augment.damageFactor(max())),
+				Math.round(augment.damageFactor(minAttrib())),
+				Math.round(augment.damageFactor(maxAttrib())),
 				STRReq());
 
 		if (Dungeon.hero != null) {

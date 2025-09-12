@@ -22,9 +22,12 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+
+import sun.jvm.hotspot.debugger.DebuggerUtilities;
 
 public class HandAxe extends MeleeWeapon {
 
@@ -51,17 +54,18 @@ public class HandAxe extends MeleeWeapon {
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
 		//+(4+1.5*lvl) damage, roughly +55% base dmg, +75% scaling
-		int dmgBoost = augment.damageFactor(4 + Math.round(1.5f*buffedLvl()));
+		int dmgBoost = augment.damageFactor(damageBoost(4 + Math.round(1.5f*buffedLvl()+1.5f*hero.weaponMastery)));
 		Mace.heavyBlowAbility(hero, target, 1, dmgBoost, this);
 	}
 
 	@Override
 	public String abilityInfo() {
-		int dmgBoost = levelKnown ? 4 + Math.round(1.5f*buffedLvl()) : 4;
+		Hero hero= Dungeon.hero;
+		int dmgBoost = damageBoost(4 + Math.round(1.5f*buffedLvl()+1.5f*hero.weaponMastery));
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", augment.damageFactor(min()+dmgBoost), augment.damageFactor(max()+dmgBoost));
+			return Messages.get(this, "ability_desc", augment.damageFactor(minDamage(hero)+dmgBoost), augment.damageFactor(maxDamage(hero)+dmgBoost));
 		} else {
-			return Messages.get(this, "typical_ability_desc", min(0)+dmgBoost, max(0)+dmgBoost);
+			return Messages.get(this, "typical_ability_desc", min(0)+4, max(0)+4);
 		}
 	}
 

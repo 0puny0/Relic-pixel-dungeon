@@ -138,8 +138,8 @@ public class SpiritBow extends Weapon {
 		String info = super.info();
 		
 		info += "\n\n" + Messages.get( SpiritBow.class, "stats",
-				Math.round(augment.damageFactor(min())),
-				Math.round(augment.damageFactor(max())),
+				Math.round(augment.damageFactor(minAttrib())),
+				Math.round(augment.damageFactor(maxAttrib())),
 				STRReq());
 		
 		if (STRReq() > Dungeon.hero.STR()) {

@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier0.Bow;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
@@ -198,8 +199,8 @@ public abstract class TippedDart extends Dart {
 		float usages = Math.round(MAX_DURABILITY/use);
 
 		//grants 3+lvl extra uses with charged shot
-		if (bow != null && Dungeon.hero != null && Dungeon.hero.buff(Crossbow.ChargedShot.class) != null){
-			usages += 3 + bow.buffedLvl();
+		if (bow != null && Dungeon.hero != null && Dungeon.hero.buff(Bow.ChargedShot.class) != null){
+			return 0;
 		}
 
 		//at 100 uses, items just last forever.

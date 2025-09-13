@@ -19,24 +19,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier0;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier0.Bow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
-public class Crossbow extends Bow{
+public class Bow extends MeleeWeapon {
 	
 	{
 		image = ItemSpriteSheet.CROSSBOW;
@@ -45,45 +40,71 @@ public class Crossbow extends Bow{
 		
 		//check Dart.class for additional properties
 		
-		tier = 4;
+		tier = 1;
 	}
 
 	@Override
-	public int max(int lvl) {
-		return  20 + 4*lvl;
-	}
-
-	public String statsInfo(){
-		if (isIdentified()){
-			return Messages.get(this, "stats_desc",  4 +buffedLvl(),12 +3*buffedLvl() );
+	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
+		if (super.doUnequip(hero, collect, single)){
+			if (hero.buff(ChargedShot.class) != null &&
+					!(hero.belongings.weapon() instanceof Bow)
+					&& !(hero.belongings.secondWep() instanceof Bow)){
+				//clear charged shot if no crossbow is equipped
+				hero.buff(ChargedShot.class).detach();
+			}
+			return true;
 		} else {
-			return Messages.get(this, "typical_stats_desc", 4,12);
+			return false;
 		}
 	}
-	@Override
-	public int dartMin() {
-		if (Dungeon.hero.buff(Bow.ChargedShot.class) != null){
-			return 8 +2*buffedLvl() ;
-		}else {
-			return 4 +buffedLvl() ;
-		}
+	public int dartMin(){
+		return 1;
 	}
+	public int dartMax(){
+		return 2;
+	}
+
 	@Override
-	public int dartMax() {
-		if (Dungeon.hero.buff(Bow.ChargedShot.class) != null){
-			return  16 +4*buffedLvl();
-		}else {
-			return 12 +3*buffedLvl() ;
+	protected void duelistAbility(Hero hero, Integer target) {
+		if (hero.buff(ChargedShot.class) != null){
+			GLog.w(Messages.get(this, "ability_cant_use"));
+			return;
 		}
+
+		beforeAbilityUsed(hero, null);
+		Buff.affect(hero, ChargedShot.class);
+		hero.sprite.operate(hero.pos);
+		hero.next();
+		afterAbilityUsed(hero);
 	}
 
 	@Override
 	public String abilityInfo() {
 		Hero hero= Dungeon.hero;
 		if (levelKnown){
-			return Messages.get(this, "ability_desc", 4+buffedLvl()+hero.weaponMastery);
+			return Messages.get(this, "ability_desc", 4+buffedLvl()+hero.weaponMastery, 4+buffedLvl()+hero.weaponMastery);
 		} else {
-			return Messages.get(this, "typical_ability_desc", 4);
+			return Messages.get(this, "typical_ability_desc", 4, 4);
 		}
 	}
+
+	@Override
+	public String upgradeAbilityStat(int level) {
+		return Integer.toString(4 + level);
+	}
+
+	public static class ChargedShot extends Buff{
+
+		{
+			announced = true;
+			type = buffType.POSITIVE;
+		}
+
+		@Override
+		public int icon() {
+			return BuffIndicator.DUEL_XBOW;
+		}
+
+	}
+
 }

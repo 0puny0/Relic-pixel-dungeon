@@ -103,6 +103,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
+import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Bulk;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
@@ -136,6 +137,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocki
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.YongYan;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.NingBing;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5.LeiMing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -817,7 +820,7 @@ public abstract class Char extends Actor {
 	}
 	
 	public void damage( int dmg, Object src ) {
-		
+		int initialDamage=dmg;
 		if (!isAlive() || dmg < 0) {
 			return;
 		}
@@ -999,6 +1002,15 @@ public abstract class Char extends Actor {
 				icon = FloatingText.BURNING;
 			}
 			//凝冰武器显示
+			if (src == Dungeon.hero
+					&& Dungeon.hero.belongings.attackingWeapon() instanceof NingBing){
+				icon = FloatingText.FROST;
+			}
+			//雷鸣武器显示
+			if (src == Dungeon.hero
+					&& Dungeon.hero.belongings.attackingWeapon() instanceof LeiMing){
+				icon = FloatingText.SHOCKING;
+			}
 			//狙击手破甲攻击显示special case for sniper when using ranged attacks
 			if (src == Dungeon.hero
 					&& Dungeon.hero.subClass == HeroSubClass.SNIPER
@@ -1027,7 +1039,17 @@ public abstract class Char extends Actor {
 			if (src instanceof Corruption)                              icon = FloatingText.CORRUPTION;
 			if (src instanceof AscensionChallenge)                      icon = FloatingText.AMULET;
 
-			sprite.showStatusWithIcon(CharSprite.NEGATIVE, Integer.toString(dmg + shielded), icon);
+			//伤害最大值突出显示
+			String etr="";
+			if (src == Dungeon.hero){
+				KindOfWeapon weapon=Dungeon.hero.belongings.attackingWeapon();
+				if (weapon!=null&&initialDamage==weapon.maxDamage(Dungeon.hero)){
+					etr="!";
+				}
+			}
+
+
+			sprite.showStatusWithIcon(CharSprite.NEGATIVE, Integer.toString(dmg + shielded)+etr, icon);
 		}
 
 		if (HP < 0) HP = 0;

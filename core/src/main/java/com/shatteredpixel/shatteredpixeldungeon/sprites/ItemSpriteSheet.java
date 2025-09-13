@@ -810,6 +810,9 @@ public class ItemSpriteSheet {
 	public static final int  YONG_YAN= NEW_WEAPON+3;
 	public static final int  NING_BING= NEW_WEAPON+4;
 	public static final int  LEI_MING= NEW_WEAPON+5;
+	public static final int  SHOU_NU= NEW_WEAPON+6;
+	public static final int  GONG_CHENG_NU= NEW_WEAPON+7;
+	public static final int  BAO_ZHA_JU_NU= NEW_WEAPON+8;
 	static{
 		assignItemRect(TEN_MU_1, 14, 13);
 		assignItemRect(TEN_MU_2, 16, 16);
@@ -817,6 +820,9 @@ public class ItemSpriteSheet {
 		assignItemRect(YONG_YAN, 14, 16);
 		assignItemRect(NING_BING, 16, 15);
 		assignItemRect(LEI_MING, 15, 16);
+		assignItemRect(SHOU_NU, 13, 13);
+		assignItemRect(GONG_CHENG_NU, 15, 15);
+		assignItemRect(BAO_ZHA_JU_NU, 15, 15);
 
 	}
 

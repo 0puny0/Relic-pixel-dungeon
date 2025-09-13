@@ -21,10 +21,12 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts;
 
+import com.badlogic.gdx.graphics.GL20;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -32,12 +34,15 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier0.Bow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.ShouNu;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5.GongChengNu;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.audio.Sample;
@@ -76,6 +81,16 @@ public class Dart extends MissileWeapon {
 		}
 	}
 
+	@Override
+	public float delayFactor(Char owner) {
+		if (owner instanceof Hero
+				&& ((Hero) owner).belongings.weapon()instanceof ShouNu
+				&&owner.buff(ShouNu.QuickShotCooldown.class)==null)  {
+			return 0;
+		} else{
+			return super.delayFactor(owner);
+		}
+	}
 
 	@Override
 	public int min(int lvl) {
@@ -126,13 +141,19 @@ public class Dart extends MissileWeapon {
 		//don't update xbow here, as dart is the active weapon atm
 		if (bow != null && owner.buff(Bow.ChargedShot.class) != null){
 			return Char.INFINITE_ACCURACY;
-		} else {
-			return super.accuracyFactor(owner, target);
 		}
+		float accFactor = super.accuracyFactor(owner, target);
+		if (bow instanceof GongChengNu){
+			accFactor*=0.8f;
+		}
+		return accFactor;
 	}
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
+		if (attacker instanceof Hero&&bow instanceof ShouNu&&attacker.buff(ShouNu.QuickShotCooldown.class)==null){
+			Buff.affect(attacker,ShouNu.QuickShotCooldown.class,3);
+		}
 		if (bow != null && !processingChargedShot){
 			damage = bow.proc(attacker, defender, damage);
 		}

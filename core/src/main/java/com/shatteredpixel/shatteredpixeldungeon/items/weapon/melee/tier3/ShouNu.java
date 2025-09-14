@@ -50,25 +50,25 @@ public class ShouNu extends Bow {
 
 	public String statsInfo(){
 		if (isIdentified()){
-			return Messages.get(this, "stats_desc",  1 +buffedLvl(),3 +2*buffedLvl() );
+			return Messages.get(this, "stats_desc",  3 +buffedLvl(),6 +2*buffedLvl() );
 		} else {
-			return Messages.get(this, "typical_stats_desc", 1,3);
+			return Messages.get(this, "typical_stats_desc", 3,6);
 		}
 	}
 	@Override
 	public int dartMin() {
 		if (Dungeon.hero.buff(Bow.ChargedShot.class) != null){
-			return 4 +2*buffedLvl() ;
+			return 6 +2*buffedLvl() ;
 		}else {
-			return 1 +buffedLvl();
+			return 3 +buffedLvl();
 		}
 	}
 	@Override
 	public int dartMax() {
 		if (Dungeon.hero.buff(Bow.ChargedShot.class) != null){
-			return  6 +3*buffedLvl();
+			return  9 +3*buffedLvl();
 		}else {
-			return 3 +2*buffedLvl();
+			return 6 +2*buffedLvl();
 		}
 	}
 

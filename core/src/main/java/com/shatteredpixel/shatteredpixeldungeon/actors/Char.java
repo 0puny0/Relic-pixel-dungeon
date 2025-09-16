@@ -138,6 +138,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.YongYan;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.NingBing;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.SuoHunLian;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5.LeiMing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
@@ -402,6 +403,9 @@ public abstract class Char extends Actor {
 
 				if (h.buff(MonkEnergy.MonkAbility.UnarmedAbilityTracker.class) != null){
 					dr = 0;
+				}
+				if (h.belongings.attackingWeapon()instanceof SuoHunLian){
+					dr=0;
 				}
 			}
 

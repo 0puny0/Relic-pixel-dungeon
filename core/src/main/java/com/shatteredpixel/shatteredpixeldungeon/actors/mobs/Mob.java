@@ -78,6 +78,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5.SheHunCi;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Bestiary;
@@ -898,7 +899,9 @@ public abstract class Mob extends Char {
 		boolean soulMarked = buff(SoulMark.class) != null;
 
 		super.die( cause );
-
+		if (cause instanceof Hero&&((Hero) cause).buff(SheHunCi.SheHunTracker.class)!=null&&((Hero) cause).belongings.attackingWeapon()instanceof SheHunCi){
+			((SheHunCi) ((Hero) cause).belongings.attackingWeapon()).count++;
+		}
 		if (!(this instanceof Wraith)
 				&& soulMarked
 				&& Random.Float() < (0.4f*Dungeon.hero.pointsInTalent(Talent.NECROMANCERS_MINIONS)/3f)){

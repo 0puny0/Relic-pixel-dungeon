@@ -818,6 +818,7 @@ public class ItemSpriteSheet {
 	public static final int  SUO_HUN_LIAN= NEW_WEAPON+11;
 	public static final int  SHE_HUN_CI= NEW_WEAPON+12;
 	public static final int  SHI_HUN_YAO_LIAN= NEW_WEAPON+13;
+	public static final int  JIAN_DUN= NEW_WEAPON+14;
 	static{
 		assignItemRect(TEN_MU_1, 14, 13);
 		assignItemRect(TEN_MU_2, 16, 16);
@@ -833,8 +834,23 @@ public class ItemSpriteSheet {
 		assignItemRect(SUO_HUN_LIAN, 16, 14);
 		assignItemRect(SHE_HUN_CI, 14, 14);
 		assignItemRect(SHI_HUN_YAO_LIAN, 16, 15);
+		assignItemRect(JIAN_DUN, 15, 15);
 
 	}
+
+
+	private static final int EXPLORER     =                               xy(1, 42);
+	public static final int  COMPASS= EXPLORER+0;
+	public static final int  COMPASS_1= EXPLORER+1;
+	public static final int  COMPASS_2= EXPLORER+2;
+	public static final int  COMPASS_3= EXPLORER+3;
+	static{
+		assignItemRect(COMPASS,        	14, 10);
+		assignItemRect(COMPASS_1,       14, 10);
+		assignItemRect(COMPASS_2,       14, 10);
+		assignItemRect(COMPASS_3,       14, 10);
+	}
+
 
 	//for smaller 8x8 icons that often accompany an item sprite
 	public static class Icons {

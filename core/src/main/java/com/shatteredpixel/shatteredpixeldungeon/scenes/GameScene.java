@@ -52,6 +52,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Ripple;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
+import com.shatteredpixel.shatteredpixeldungeon.items.Compass;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -520,7 +521,18 @@ public class GameScene extends PixelScene {
 					}
 				Random.popGenerator();
 			}
-
+			if (Dungeon.hero.belongings.getItem(Compass.class)!=null
+					&& Dungeon.level instanceof RegularLevel && Dungeon.branch == 0){
+				int reqSecrets = Dungeon.level.feeling == Level.Feeling.SECRETS ? 2 : 1;
+				for (Room r : ((RegularLevel) Dungeon.level).rooms()){
+					if (r instanceof SecretRoom) reqSecrets--;
+				}
+				Random.pushGenerator(Dungeon.seedCurDepth()+1);
+				if (reqSecrets <= 0){
+					GLog.p(Messages.get(Compass.class, "secret_hint"));
+				}
+				Random.popGenerator();
+			}
 			boolean unspentTalents = false;
 			for (int i = 1; i <= Dungeon.hero.talents.size(); i++){
 				if (Dungeon.hero.talentPointsAvailable(i) > 0){

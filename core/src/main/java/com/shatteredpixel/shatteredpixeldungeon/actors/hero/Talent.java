@@ -442,7 +442,7 @@ public enum Talent {
 	public int icon(){
 		if (this == HEROIC_ENERGY){
 			if (Ratmogrify.useRatroicEnergy){
-				return 218;
+				return 250;
 			}
 			HeroClass cls = Dungeon.hero != null ? Dungeon.hero.heroClass : GamesInProgress.selectedClass;
 			switch (cls){
@@ -458,6 +458,8 @@ public enum Talent {
 					return 154;
 				case CLERIC:
 					return 186;
+				case EXPLORER:
+					return 218;
 			}
 		} else {
 			return icon;

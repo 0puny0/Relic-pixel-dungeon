@@ -70,6 +70,7 @@ public class Badges {
 		MASTERY_HUNTRESS,
 		MASTERY_DUELIST,
 		MASTERY_CLERIC,
+		MASTERY_EXPLORER,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -952,6 +953,9 @@ public class Badges {
 				break;
 			case CLERIC:
 				badge = Badge.MASTERY_CLERIC;
+				break;
+			case EXPLORER:
+				badge = Badge.MASTERY_EXPLORER;
 				break;
 		}
 		

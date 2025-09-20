@@ -64,6 +64,7 @@ import com.shatteredpixel.shatteredpixeldungeon.custom.testmode.generator.TestPo
 import com.shatteredpixel.shatteredpixeldungeon.custom.testmode.generator.TestRing;
 import com.shatteredpixel.shatteredpixeldungeon.custom.testmode.generator.TestValue;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Compass;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Stithy;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
@@ -97,6 +98,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier1.JianDun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier2.DuoHunZhua;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier2.TenMu_1;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.ShouNu;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.YongYan;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.ZhanHunDao;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.NingBing;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.SuoHunLian;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5.GongChengNu;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5.LeiMing;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5.SheHunCi;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
@@ -111,7 +123,8 @@ public enum HeroClass {
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN ),
 	DUELIST( HeroSubClass.CHAMPION, HeroSubClass.MONK ),
-	CLERIC( HeroSubClass.PRIEST, HeroSubClass.PALADIN );
+	CLERIC( HeroSubClass.PRIEST, HeroSubClass.PALADIN ),
+	EXPLORER(HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR );
 
 	private HeroSubClass[] subClasses;
 
@@ -164,6 +177,9 @@ public enum HeroClass {
 			case CLERIC:
 				initCleric( hero );
 				break;
+			case EXPLORER:
+				initExplorer(hero);
+				break;
 		}
 
 		if (SPDSettings.quickslotWaterskin()) {
@@ -193,6 +209,8 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_DUELIST;
 			case CLERIC:
 				return Badges.Badge.MASTERY_CLERIC;
+			case EXPLORER:
+				return Badges.Badge.MASTERY_EXPLORER;
 		}
 		return null;
 	}
@@ -266,6 +284,18 @@ public enum HeroClass {
 
 		Dungeon.quickslot.setSlot(0, tome);
 	}
+	private static void initExplorer( Hero hero ) {
+
+		(hero.belongings.weapon = new JianDun()).identify();
+		hero.belongings.weapon.activate(hero);
+		Compass compass=new Compass();
+		compass.collect();
+		Dungeon.quickslot.setSlot(0, compass);
+		ThrowingStone stones = new ThrowingStone();
+		stones.quantity(3).collect();
+		Dungeon.quickslot.setSlot(1, stones);
+
+	}
 
 	public String title() {
 		return Messages.get(HeroClass.class, name());
@@ -297,6 +327,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
 			case CLERIC:
 				return new ArmorAbility[]{new AscendedForm(), new Trinity(), new PowerOfMany()};
+			case EXPLORER:
+				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
 		}
 	}
 
@@ -314,6 +346,8 @@ public enum HeroClass {
 				return Assets.Sprites.DUELIST;
 			case CLERIC:
 				return Assets.Sprites.CLERIC;
+			case EXPLORER:
+				return Assets.Sprites.EXPLORER;
 		}
 	}
 
@@ -331,6 +365,8 @@ public enum HeroClass {
 				return Assets.Splashes.DUELIST;
 			case CLERIC:
 				return Assets.Splashes.CLERIC;
+			case EXPLORER:
+				return Assets.Splashes.EXPLORER;
 		}
 	}
 	
@@ -351,6 +387,7 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_DUELIST);
 			case CLERIC:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_CLERIC);
+				//TODO EXPLORER
 		}
 	}
 	private static void textTime(Hero hero) {
@@ -358,6 +395,16 @@ public enum HeroClass {
 		new ScrollOfAbility().quantity(100).collect();
 		new ScrollOfUpgrade().quantity(10).collect();
 		new Stithy().collect();
+		new TenMu_1().identify().collect();
+		new YongYan().identify().collect();
+		new NingBing().identify().collect();
+		new LeiMing().identify().collect();
+		new ShouNu().identify().collect();
+		new GongChengNu().identify().collect();
+		new DuoHunZhua().identify().collect();
+		new ZhanHunDao().identify().collect();
+		new SheHunCi().identify().collect();
+		new SuoHunLian().identify().collect();
 
 
 

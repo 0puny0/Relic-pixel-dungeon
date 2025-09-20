@@ -2520,7 +2520,7 @@ public class Hero extends Char {
 					Buff.affect(this, Hunger.class).affectHunger(TIME_TO_SEARCH - HUNGER_FOR_SEARCH);
 				}
 			}
-			spendAndNext(TIME_TO_SEARCH);
+			spendAndNext(heroClass == HeroClass.EXPLORER ?TIME_TO_SEARCH/2:TIME_TO_SEARCH);
 			
 		}
 		

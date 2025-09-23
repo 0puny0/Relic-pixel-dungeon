@@ -24,10 +24,15 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SnakeSprite;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Random;
 
 public class Snake extends Mob {
@@ -68,5 +73,20 @@ public class Snake extends Mob {
 			dodges = 0;
 		}
 		return super.defenseVerb();
+	}
+	@Override
+	public void rollToDropLoot() {
+		Hero hero= Dungeon.hero;
+		if(hero.hasTalent(Talent.JIE_PAO_ZHUAN_JIA)){
+			int meatAvailable = 1 + 2*hero.pointsInTalent(Talent.JIE_PAO_ZHUAN_JIA);
+			Talent.AutopsyMeatDropped dropped = Buff.affect(hero, Talent.AutopsyMeatDropped.class);
+			meatAvailable -= dropped.count();
+			if(meatAvailable>0){
+				dropped.countUp(1);
+				Dungeon.level.drop(new MysteryMeat(), pos).sprite.drop();
+				GLog.i(Integer.toString(meatAvailable));
+			}
+		}
+		super.rollToDropLoot();
 	}
 }

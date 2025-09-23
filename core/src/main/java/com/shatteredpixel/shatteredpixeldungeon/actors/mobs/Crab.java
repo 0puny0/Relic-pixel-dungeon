@@ -21,9 +21,14 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CrabSprite;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Random;
 
 public class Crab extends Mob {
@@ -55,5 +60,20 @@ public class Crab extends Mob {
 	@Override
 	public int drRoll() {
 		return super.drRoll() + Random.NormalIntRange(0, 4);
+	}
+	@Override
+	public void rollToDropLoot() {
+		Hero hero= Dungeon.hero;
+		if(hero.hasTalent(Talent.JIE_PAO_ZHUAN_JIA)){
+			int meatAvailable = 1 + 2*hero.pointsInTalent(Talent.JIE_PAO_ZHUAN_JIA);
+			Talent.AutopsyMeatDropped dropped = Buff.affect(hero, Talent.AutopsyMeatDropped.class);
+			meatAvailable -= dropped.count();
+			if(meatAvailable>0){
+				dropped.countUp(1);
+				Dungeon.level.drop(new MysteryMeat(), pos).sprite.drop();
+				GLog.i(Integer.toString(meatAvailable));
+			}
+		}
+		super.rollToDropLoot();
 	}
 }

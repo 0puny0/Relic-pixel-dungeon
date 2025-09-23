@@ -46,7 +46,8 @@ public class Berry extends Food {
 				|| Dungeon.hero.hasTalent(Talent.MYSTICAL_MEAL)
 				|| Dungeon.hero.hasTalent(Talent.INVIGORATING_MEAL)
 				|| Dungeon.hero.hasTalent(Talent.FOCUSED_MEAL)
-				|| Dungeon.hero.hasTalent(Talent.ENLIGHTENING_MEAL)){
+				|| Dungeon.hero.hasTalent(Talent.ENLIGHTENING_MEAL)
+				||Dungeon.hero.hasTalent(Talent.FEN_JUAN_CAN_SHI)){
 			return 0;
 		} else {
 			return 1;

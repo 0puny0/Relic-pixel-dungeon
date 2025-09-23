@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
@@ -198,7 +199,11 @@ public class Shopkeeper extends NPC {
 
 	//shopkeepers are greedy!
 	public static int sellPrice(Item item){
-		return item.value() * 5 * (Dungeon.depth / 5 + 1);
+		float costScale =1f;
+		if (Dungeon.hero.hasTalent(Talent.YI_JIA_NENG_SHOU)){
+			costScale *=0.9f-0.1f*Dungeon.hero.pointsInTalent(Talent.YI_JIA_NENG_SHOU);
+		}
+		return Math.round(item.value() * costScale * 5 * (Dungeon.depth / 5 + 1)) ;
 	}
 	
 	public static WndBag sell() {

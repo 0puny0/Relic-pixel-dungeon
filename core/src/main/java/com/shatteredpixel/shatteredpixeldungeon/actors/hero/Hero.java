@@ -849,7 +849,9 @@ public class Hero extends Char {
 		checkVisibleMobs();
 		BuffIndicator.refreshHero();
 		BuffIndicator.refreshBoss();
-		
+
+		Talent.onAct(this);
+
 		if (paralysed > 0) {
 			
 			curAction = null;
@@ -2521,7 +2523,13 @@ public class Hero extends Char {
 				}
 			}
 			spendAndNext(heroClass == HeroClass.EXPLORER ?TIME_TO_SEARCH/2:TIME_TO_SEARCH);
-			
+
+			if (hasTalent(Talent.JIN_TI_JIE_BEI)){
+				int shieldToGive = Dungeon.hero.pointsInTalent(Talent.JIN_TI_JIE_BEI);
+				Buff.affect(Dungeon.hero, Barrier.class).setShield(shieldToGive);
+				Dungeon.hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(shieldToGive), FloatingText.SHIELDING);
+
+			}
 		}
 		
 		if (smthFound) {

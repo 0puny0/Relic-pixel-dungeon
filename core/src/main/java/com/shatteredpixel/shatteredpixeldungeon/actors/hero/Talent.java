@@ -27,8 +27,11 @@ import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
@@ -50,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Identification;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
@@ -59,10 +63,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfAbility;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfDivination;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.ShardOfOblivion;
@@ -75,6 +81,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWea
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -195,7 +202,11 @@ public enum Talent {
 	//Trinity T4
 	BODY_FORM(183, 4), MIND_FORM(184, 4), SPIRIT_FORM(185, 4),
 	//Power of Many T4
-	BEAMING_RAY(183, 4), LIFE_LINK(184, 4), STASIS(185, 4),
+	BEAMING_RAY(186, 4), LIFE_LINK(187, 4), STASIS(188, 4),
+
+	//探险家
+	JIE_PAO_ZHUAN_JIA(192),JIAN_DUO_SHI_GUANG(193),QIU_SHENG_YI_ZHI(194),JIN_TI_JIE_BEI(195),
+	FEN_JUAN_CAN_SHI(196),CHU_QI_BU_YI(197),ZHI_NENG_LUO_PAN(198),YI_JIA_NENG_SHOU(199),JIN_JI_BI_XIAN(200),
 
 	//universal T4
 	HEROIC_ENERGY(30, 4), //See icon() and title() for special logic for this one
@@ -423,7 +434,13 @@ public enum Talent {
 		public void tintIcon(Image icon) { icon.hardlight(0f, 0f, 1f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
 	}
-
+	public static class NecessityCooldown extends FlavourBuff{
+		public int icon() {
+			return BuffIndicator.TIME;
+		}
+		public void tintIcon(Image icon) { icon.hardlight(0.6f, 0.3f, 0f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (225-Dungeon.hero.pointsInTalent(JIN_JI_BI_XIAN)*75)); }
+	}
 	int icon;
 	int maxPoints;
 
@@ -524,7 +541,9 @@ public enum Talent {
 				hero.belongings.weapon().identify();
 			}
 		}
-
+		if(talent==JIAN_DUO_SHI_GUANG){
+			divinate(hero.pointsInTalent(JIAN_DUO_SHI_GUANG)==1?3:2);
+		}
 		if (talent == PROTECTIVE_SHADOWS && hero.invisible > 0){
 			Buff.affect(hero, Talent.ProtectiveShadowsTracker.class);
 		}
@@ -574,10 +593,39 @@ public enum Talent {
 			Dungeon.hero.updateHT(false);
 		}
 	}
+	public static void  divinate(int value){
+		HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
+		HashSet<Class<? extends Scroll>> scrolls = Scroll.getUnknown();
 
+		ArrayList<Item> IDed = new ArrayList<>();
+		for (int i=0;i<value;i++){
+			if (!potions.isEmpty()){
+				Potion p = Reflection.newInstance(Random.element(potions));
+				p.identify();
+				IDed.add(p);
+				potions.remove(p.getClass());
+			}
+		}
+		for (int i=0;i<value;i++){
+			if (!scrolls.isEmpty()){
+				Scroll s = Reflection.newInstance(Random.element(scrolls));
+				s.identify();
+				IDed.add(s);
+				scrolls.remove(s.getClass());
+			}
+		}
+
+		if (IDed.isEmpty()){
+			GLog.n( Messages.get(new ScrollOfDivination(), "nothing_left") );
+		} else {
+			GameScene.show(new ScrollOfDivination.WndDivination(IDed));
+		}
+
+	}
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
 	public static class NatureBerriesDropped extends CounterBuff{{revivePersists = true;}};
 
+	public static class AutopsyMeatDropped extends CounterBuff{{revivePersists=true;}};
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
 		if (hero.hasTalent(HEARTY_MEAL)){
 			//3/5 HP healed, when hero is below 30% health
@@ -900,10 +948,38 @@ public enum Talent {
 				dmg = Math.round(dmg * (1.0f + .1f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
 			}
 		}
+		if(hero.hasTalent(QIU_SHENG_YI_ZHI)){
+			if (hero.HP <= hero.HT/3){
+				dmg+=1+hero.pointsInTalent(QIU_SHENG_YI_ZHI);
+			}
+		}
+		if(hero.hasTalent(CHU_QI_BU_YI)&& enemy instanceof Mob&& enemy.buff(SurpriseTracker.class) == null){
+			if(hero.pointsInTalent(CHU_QI_BU_YI)==1 &&!((Mob) enemy).surprisedBy(hero)){
 
+			}else {
+				Buff.affect(enemy, Blindness.class,1.34f);
+				Buff.affect(enemy,SurpriseTracker.class);
+			}
+		}
 		return dmg;
 	}
 
+	public static void onAct(Hero hero){
+		if(hero.hasTalent(Talent.JIN_TI_JIE_BEI)&&hero.buff(NecessityCooldown.class)==null){
+
+			for (Class<? extends Blob> b :new BlobImmunity().immunities()){
+				if(Blob.volumeAt(hero.pos,b)!=0&&hero.buff(BlobImmunity.class)==null){
+					for (Buff buff:hero.buffs()){
+						if(buff.type== Buff.buffType.NEGATIVE){
+							buff.detach();
+						}
+					}
+					Buff.affect(hero, Swiftthistle.TimeBubble.class);
+					Buff.affect(hero, NecessityCooldown.class,225-hero.pointsInTalent(JIN_TI_JIE_BEI)*75);
+				}
+			}
+		}
+	}
 	public static class ProvokedAngerTracker extends FlavourBuff{
 		{ type = Buff.buffType.POSITIVE; }
 		public int icon() { return BuffIndicator.WEAPON; }
@@ -916,6 +992,8 @@ public enum Talent {
 		public void tintIcon(Image icon) { icon.hardlight(1.43f, 1.43f, 0f); }
 		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
 	}
+
+	public static class SurpriseTracker extends Buff{};
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends FlavourBuff{
 		public int object;
@@ -973,6 +1051,9 @@ public enum Talent {
 			case CLERIC:
 				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT);
 				break;
+			case EXPLORER:
+				Collections.addAll(tierTalents, JIE_PAO_ZHUAN_JIA, JIAN_DUO_SHI_GUANG, QIU_SHENG_YI_ZHI, JIN_TI_JIE_BEI);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1001,6 +1082,9 @@ public enum Talent {
 				break;
 			case CLERIC:
 				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS);
+				break;
+			case EXPLORER:
+				Collections.addAll(tierTalents, FEN_JUAN_CAN_SHI,CHU_QI_BU_YI,ZHI_NENG_LUO_PAN,YI_JIA_NENG_SHOU,JIN_JI_BI_XIAN);
 				break;
 		}
 		for (Talent talent : tierTalents){

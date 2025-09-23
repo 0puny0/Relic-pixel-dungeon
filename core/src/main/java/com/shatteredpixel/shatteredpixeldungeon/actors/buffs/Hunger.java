@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.SaltCube;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
@@ -125,6 +126,13 @@ public class Hunger extends Buff implements Hero.Doom {
 	}
 
 	public void satisfy( float energy ) {
+		if (target instanceof Hero){
+			Hero hero=(Hero)target;
+			if (hero.hasTalent(Talent.FEN_JUAN_CAN_SHI)){
+				int regen=Math.round(energy/20*hero.pointsInTalent(Talent.FEN_JUAN_CAN_SHI));
+				hero.heal(regen,false);
+			}
+		}
 		affectHunger( energy, false );
 	}
 

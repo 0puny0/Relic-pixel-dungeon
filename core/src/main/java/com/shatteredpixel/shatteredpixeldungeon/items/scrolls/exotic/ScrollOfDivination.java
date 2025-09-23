@@ -122,12 +122,12 @@ public class ScrollOfDivination extends ExoticScroll {
 		identify();
 	}
 	
-	private class WndDivination extends Window {
+	public static class WndDivination extends Window {
 		
 		private static final int WIDTH = 120;
 		
-		WndDivination(ArrayList<Item> IDed ){
-			IconTitle cur = new IconTitle(new ItemSprite(ScrollOfDivination.this),
+		public WndDivination(ArrayList<Item> IDed){
+			IconTitle cur = new IconTitle(new ItemSprite(new ScrollOfDivination()),
 					Messages.titleCase(Messages.get(ScrollOfDivination.class, "name")));
 			cur.setRect(0, 0, WIDTH, 0);
 			add(cur);

@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
@@ -108,8 +109,12 @@ public class WndBlacksmith extends Window {
 		};
 		pickaxe.enable(Blacksmith.Quest.pickaxe != null && Blacksmith.Quest.favor >= pickaxeCost);
 		buttons.add(pickaxe);
-
+		float costScale=1f;
+		if (Dungeon.hero.hasTalent(Talent.YI_JIA_NENG_SHOU)){
+			costScale *=0.9f-0.1f*Dungeon.hero.pointsInTalent(Talent.YI_JIA_NENG_SHOU);
+		}
 		int reforgecost = 500 + 1000*Blacksmith.Quest.reforges;
+		reforgecost=Math.round(reforgecost*costScale);
 		RedButton reforge = new RedButton(Messages.get(this, "reforge", reforgecost), 6){
 			@Override
 			protected void onClick() {
@@ -120,6 +125,7 @@ public class WndBlacksmith extends Window {
 		buttons.add(reforge);
 
 		int hardenCost = 500 + 1000*Blacksmith.Quest.hardens;
+		hardenCost=Math.round(hardenCost*costScale);
 		RedButton harden = new RedButton(Messages.get(this, "harden", hardenCost), 6){
 			@Override
 			protected void onClick() {
@@ -130,6 +136,7 @@ public class WndBlacksmith extends Window {
 		buttons.add(harden);
 
 		int upgradeCost = 1000 + 1000*Blacksmith.Quest.upgrades;
+		upgradeCost=Math.round(upgradeCost*costScale);
 		RedButton upgrade = new RedButton(Messages.get(this, "upgrade", upgradeCost), 6){
 			@Override
 			protected void onClick() {
@@ -138,8 +145,10 @@ public class WndBlacksmith extends Window {
 		};
 		upgrade.enable(Blacksmith.Quest.favor >= upgradeCost);
 		buttons.add(upgrade);
-
-		RedButton smith = new RedButton(Messages.get(this, "smith", 2000), 6){
+		int smithCost =2000;
+		smithCost=Math.round(smithCost*costScale);
+		int finalSmithCost = smithCost;
+		RedButton smith = new RedButton(Messages.get(this, "smith", smithCost), 6){
 			@Override
 			protected void onClick() {
 				GameScene.show(new WndOptions(
@@ -152,7 +161,7 @@ public class WndBlacksmith extends Window {
 					@Override
 					protected void onSelect(int index) {
 						if (index == 0){
-							Blacksmith.Quest.favor -= 2000;
+							Blacksmith.Quest.favor -= finalSmithCost;
 							Blacksmith.Quest.smiths++;
 							WndBlacksmith.this.hide();
 							GameScene.show(new WndSmith(troll, hero));
@@ -161,7 +170,7 @@ public class WndBlacksmith extends Window {
 				});
 			}
 		};
-		smith.enable(Blacksmith.Quest.favor >= 2000);
+		smith.enable(Blacksmith.Quest.favor >= smithCost);
 		buttons.add(smith);
 
 		RedButton cashOut = new RedButton(Messages.get(this, "cashout"), 6){

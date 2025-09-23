@@ -100,11 +100,12 @@ public class Food extends Item {
 
 	protected float eatingTime(){
 		if (Dungeon.hero.hasTalent(Talent.IRON_STOMACH)
-			|| Dungeon.hero.hasTalent(Talent.ENERGIZING_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.MYSTICAL_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.INVIGORATING_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.FOCUSED_MEAL)
-			|| Dungeon.hero.hasTalent(Talent.ENLIGHTENING_MEAL)){
+				|| Dungeon.hero.hasTalent(Talent.ENERGIZING_MEAL)
+				|| Dungeon.hero.hasTalent(Talent.MYSTICAL_MEAL)
+				|| Dungeon.hero.hasTalent(Talent.INVIGORATING_MEAL)
+				|| Dungeon.hero.hasTalent(Talent.FOCUSED_MEAL)
+				|| Dungeon.hero.hasTalent(Talent.ENLIGHTENING_MEAL)
+				||Dungeon.hero.hasTalent(Talent.FEN_JUAN_CAN_SHI)){
 			return TIME_TO_EAT - 2;
 		} else {
 			return TIME_TO_EAT;
@@ -122,7 +123,6 @@ public class Food extends Item {
 			foodVal *= 0.67f;
 			GLog.n( Messages.get(Hunger.class, "cursedhorn") );
 		}
-
 		Buff.affect(hero, Hunger.class).satisfy(foodVal);
 	}
 	

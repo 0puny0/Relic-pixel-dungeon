@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SacrificialFire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
@@ -551,7 +552,17 @@ public class Hero extends Char {
 		if (buff(Scimitar.SwordDance.class) != null){
 			accuracy *= 1.50f;
 		}
-		
+		if(target.buff(Talent.FeintedTracker.class)!=null){
+			switch (pointsInTalent(Talent.XU_HUANG_YI_ZHAO)){
+				default: case 1:
+					accuracy *= 2; break;
+				case 2:
+					accuracy *= 5; break;
+				case 3:
+					accuracy *= Float.POSITIVE_INFINITY; break;
+			}
+			target.buff(Talent.FeintedTracker.class).detach();
+		}
 		if (!RingOfForce.fightingUnarmed(this)) {
 			return (int)(attackSkill * accuracy * wep.accuracyFactor( this, target ));
 		} else {
@@ -778,7 +789,7 @@ public class Hero extends Char {
 		}
 
 		float delay = 1f;
-
+		if ( buff(Adrenaline.class) != null) delay /= 1.5f;
 		if (!RingOfForce.fightingUnarmed(this)) {
 			
 			return delay * belongings.attackingWeapon().delayFactor( this );
@@ -798,7 +809,7 @@ public class Hero extends Char {
 			if (RingOfForce.unarmedGetsWeaponAugment(this)){
 				delay = ((Weapon)belongings.weapon).augment.delayFactor(delay);
 			}
-
+			if ( buff(Adrenaline.class) != null) delay /= 1.5f;
 			return delay/speed;
 		}
 	}
@@ -2320,7 +2331,9 @@ public class Hero extends Char {
 		if (hit && heroClass == HeroClass.DUELIST && wasEnemy){
 			Buff.affect( this, Sai.ComboStrikeTracker.class).addHit();
 		}
-
+		if(!hit){
+			Talent.onAttackDodged(this,enemy);
+		}
 		curAction = null;
 
 		super.onAttackComplete();

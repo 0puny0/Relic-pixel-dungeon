@@ -207,7 +207,7 @@ public enum Talent {
 	//探险家
 	JIE_PAO_ZHUAN_JIA(192),JIAN_DUO_SHI_GUANG(193),QIU_SHENG_YI_ZHI(194),JIN_TI_JIE_BEI(195),
 	FEN_JUAN_CAN_SHI(196),CHU_QI_BU_YI(197),ZHI_NENG_LUO_PAN(198),YI_JIA_NENG_SHOU(199),JIN_JI_BI_XIAN(200),
-
+	CHENG_SHENG_ZHUI_JI(201,3),XU_HUANG_YI_ZHAO(202,3),
 	//universal T4
 	HEROIC_ENERGY(30, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -424,6 +424,13 @@ public enum Talent {
 		public int icon() {
 			return BuffIndicator.SPELL_FOOD;
 		}
+	}
+	public static class FeintedTracker extends Buff{
+		{  announced=true;
+			type = buffType.NEGATIVE;
+		}
+		public int icon() { return BuffIndicator.WEAPON; }
+		public void tintIcon(Image icon) { icon.hardlight(0.85f, 0.85f, 0.85f); }
 	}
 	//used for metamorphed searing light
 	public static class SearingLightCooldown extends FlavourBuff{
@@ -891,7 +898,12 @@ public enum Talent {
 			if (item instanceof Ring) ((Ring) item).setKnown();
 		}
 	}
+	public static void onAttackDodged( Hero hero, Char enemy){
+		if(hero.hasTalent(XU_HUANG_YI_ZHAO)){
+			Buff.affect(enemy,FeintedTracker.class);
+		}
 
+	}
 	public static int onAttackProc( Hero hero, Char enemy, int dmg ){
 
 		if (hero.hasTalent(Talent.PROVOKED_ANGER)
@@ -1114,6 +1126,9 @@ public enum Talent {
 				break;
 			case CLERIC:
 				Collections.addAll(tierTalents, CLEANSE, LIGHT_READING);
+				break;
+			case EXPLORER:
+				Collections.addAll(tierTalents, CHENG_SHENG_ZHUI_JI, XU_HUANG_YI_ZHAO);
 				break;
 		}
 		for (Talent talent : tierTalents){

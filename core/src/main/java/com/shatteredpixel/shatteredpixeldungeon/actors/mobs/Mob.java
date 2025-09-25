@@ -902,6 +902,7 @@ public abstract class Mob extends Char {
 		if (cause instanceof Hero&&((Hero) cause).buff(SheHunCi.SheHunTracker.class)!=null&&((Hero) cause).belongings.attackingWeapon()instanceof SheHunCi){
 			((SheHunCi) ((Hero) cause).belongings.attackingWeapon()).count++;
 		}
+
 		if (!(this instanceof Wraith)
 				&& soulMarked
 				&& Random.Float() < (0.4f*Dungeon.hero.pointsInTalent(Talent.NECROMANCERS_MINIONS)/3f)){
@@ -913,6 +914,11 @@ public abstract class Mob extends Char {
 					Sample.INSTANCE.play(Assets.Sounds.CURSED);
 				}
 			}
+		}
+		if(alignment==Alignment.ENEMY&&Dungeon.hero.isAlive()
+				&&Dungeon.hero.hasTalent(Talent.CHENG_SHENG_ZHUI_JI)
+				&& Dungeon.level.heroFOV[pos]){
+			Buff.prolong( Dungeon.hero, Adrenaline.class, 2*Dungeon.hero.pointsInTalent(Talent.CHENG_SHENG_ZHUI_JI));
 		}
 	}
 

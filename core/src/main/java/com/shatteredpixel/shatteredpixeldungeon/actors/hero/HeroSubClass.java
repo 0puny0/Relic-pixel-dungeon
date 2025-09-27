@@ -50,6 +50,7 @@ public enum HeroSubClass {
 	PRIEST(HeroIcon.PRIEST),
 	PALADIN(HeroIcon.PALADIN),
 	SURVIVOR(HeroIcon.SURVIVOR),
+	HUNTER(HeroIcon.HUNTER);
 
 	int icon;
 

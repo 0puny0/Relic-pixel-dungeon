@@ -126,6 +126,10 @@ public class TengusMask extends Item {
 				Buff.affect(Dungeon.hero, Terraforming.class);
 				Terraforming.isSneak();
 				break;
+			case HUNTER:
+				Hunt h=Buff.affect(Dungeon.hero, Hunt.class);
+				ActionIndicator.setAction(h);
+				break;
 		}
 	}
 }

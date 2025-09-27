@@ -215,6 +215,9 @@ public enum Talent {
 	CHENG_SHENG_ZHUI_JI(201,3),XU_HUANG_YI_ZHAO(202,3),
 	//幸存者
 	XIN_PING_QI_QING(203,3),SHANG_KOU_GAN_RAN(204,3),ZHAN_SHU_XIU_ZHENG(205,3),
+	//赏金猎人
+	SHU_FU_DA_JI(206,3),SHOU_LIE_JIE_ZOU(207,3),HE_JIN_ZHUANG_BEI(208,3),
+
 	//universal T4
 	HEROIC_ENERGY(30, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -1219,6 +1222,9 @@ public enum Talent {
 				break;
 			case SURVIVOR:
 				Collections.addAll(tierTalents, XIN_PING_QI_QING, SHANG_KOU_GAN_RAN, ZHAN_SHU_XIU_ZHENG);
+				break;
+			case HUNTER:
+				Collections.addAll(tierTalents, SHU_FU_DA_JI, SHOU_LIE_JIE_ZOU, HE_JIN_ZHUANG_BEI);
 				break;
 		}
 		for (Talent talent : tierTalents){

@@ -40,10 +40,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ScrollEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terraforming;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
@@ -84,6 +86,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
@@ -204,10 +207,14 @@ public enum Talent {
 	//Power of Many T4
 	BEAMING_RAY(186, 4), LIFE_LINK(187, 4), STASIS(188, 4),
 
-	//探险家
+	//探险家1阶
 	JIE_PAO_ZHUAN_JIA(192),JIAN_DUO_SHI_GUANG(193),QIU_SHENG_YI_ZHI(194),JIN_TI_JIE_BEI(195),
+	//探险家2阶
 	FEN_JUAN_CAN_SHI(196),CHU_QI_BU_YI(197),ZHI_NENG_LUO_PAN(198),YI_JIA_NENG_SHOU(199),JIN_JI_BI_XIAN(200),
+	//探险家3阶
 	CHENG_SHENG_ZHUI_JI(201,3),XU_HUANG_YI_ZHAO(202,3),
+	//幸存者
+	XIN_PING_QI_QING(203,3),SHANG_KOU_GAN_RAN(204,3),ZHAN_SHU_XIU_ZHENG(205,3),
 	//universal T4
 	HEROIC_ENERGY(30, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -599,6 +606,19 @@ public enum Talent {
 		if (talent == SPIRIT_FORM){
 			Dungeon.hero.updateHT(false);
 		}
+		if(talent==ZHAN_SHU_XIU_ZHENG){
+			Terraforming t=hero.buff(Terraforming.class);
+			if(t!=null){
+				for (int i=0;i<t.doorOpps.length-1;i++){
+					if (i%5!=0){
+						t.doorOpps[i]++;
+					}
+				}
+			}
+			if (Dungeon.depth%5!=0){
+				ActionIndicator.setAction(t);
+			}
+		}
 	}
 	public static void  divinate(int value){
 		HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
@@ -966,12 +986,15 @@ public enum Talent {
 			}
 		}
 		if(hero.hasTalent(CHU_QI_BU_YI)&& enemy instanceof Mob&& enemy.buff(SurpriseTracker.class) == null){
-			if(hero.pointsInTalent(CHU_QI_BU_YI)==1 &&!((Mob) enemy).surprisedBy(hero)){
+			if(hero.pointsInTalent(CHU_QI_BU_YI)==1 &&!enemy.surprisedBy(hero)){
 
 			}else {
 				Buff.affect(enemy, Blindness.class,1.34f);
 				Buff.affect(enemy,SurpriseTracker.class);
 			}
+		}
+		if(hero.hasTalent(Talent.SHANG_KOU_GAN_RAN)&& enemy instanceof Mob && enemy.surprisedBy(hero)){
+			Buff.affect(enemy, Poison.class).set( 2 +hero.pointsInTalent(SHANG_KOU_GAN_RAN)*2);
 		}
 		return dmg;
 	}
@@ -1193,6 +1216,9 @@ public enum Talent {
 				break;
 			case PALADIN:
 				Collections.addAll(tierTalents, LAY_ON_HANDS, AURA_OF_PROTECTION, WALL_OF_LIGHT);
+				break;
+			case SURVIVOR:
+				Collections.addAll(tierTalents, XIN_PING_QI_QING, SHANG_KOU_GAN_RAN, ZHAN_SHU_XIU_ZHENG);
 				break;
 		}
 		for (Talent talent : tierTalents){

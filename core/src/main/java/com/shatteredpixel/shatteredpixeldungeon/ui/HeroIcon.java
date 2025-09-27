@@ -69,11 +69,11 @@ public class HeroIcon extends Image {
 	public static final int SPIRIT_HAWK     = 47;
 	public static final int CHALLENGE       = 48;
 	public static final int ELEMENTAL_STRIKE= 49;
-	public static final int FEINT           = 40;
-	public static final int ASCENDED_FORM   = 41;
-	public static final int TRINITY         = 42;
-	public static final int POWER_OF_MANY   = 43;
-	public static final int RATMOGRIFY      = 51;
+	public static final int FEINT           = 50;
+	public static final int ASCENDED_FORM   = 51;
+	public static final int TRINITY         = 52;
+	public static final int POWER_OF_MANY   = 53;
+	public static final int RATMOGRIFY      = 66;
 
 	//cleric spells
 	public static final int GUIDING_LIGHT   = 72;
@@ -105,16 +105,18 @@ public class HeroIcon extends Image {
 	public static final int STASIS          = 98;
 
 	//all cleric spells have a separate icon with no background for the action indicator
-	public static final int SPELL_ACTION_OFFSET      = 32;
+	public static final int SPELL_ACTION_OFFSET      = 16;
 
 	//action indicator visuals
-	public static final int BERSERK         = 104;
-	public static final int COMBO           = 105;
-	public static final int PREPARATION     = 106;
-	public static final int MOMENTUM        = 107;
-	public static final int SNIPERS_MARK    = 108;
-	public static final int WEAPON_SWAP     = 109;
-	public static final int MONK_ABILITIES  = 110;
+	public static final int BERSERK         = 126;
+	public static final int COMBO           = 127;
+	public static final int PREPARATION     = 128;
+	public static final int MOMENTUM        = 129;
+	public static final int SNIPERS_MARK    = 130;
+	public static final int WEAPON_SWAP     = 131;
+	public static final int MONK_ABILITIES  = 132;
+	public static final int TERRAFORMING  	= 133;
+	public static final int HUNT  	= 134;
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );

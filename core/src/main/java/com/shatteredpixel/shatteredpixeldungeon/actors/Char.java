@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -64,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PinCushion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
@@ -103,6 +105,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Bulk;
@@ -141,6 +144,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.NingBin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.SuoHunLian;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5.LeiMing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Teeth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -943,10 +947,22 @@ public abstract class Char extends Actor {
 			}
 			if (dmg < 0) dmg = 0;
 		}
-		
+		//额外伤害
+		if (buff(PinCushion.class)!=null&&src instanceof Char){
+			for (Item item : buff(PinCushion.class).getItems()){
+				if (item instanceof Teeth){
+					GLog.i(Integer.toString(dmg)+"加成\n");
+					int extra=Random.NormalIntRange(item.quantity()*2,item.quantity()*5);
+					dmg+=extra;
+					GLog.i(Integer.toString(extra));
+				}
+			}
+		}
+
 		if (buff( Paralysis.class ) != null) {
 			buff( Paralysis.class ).processDamage(dmg);
 		}
+
 
 		BrokenSeal.WarriorShield shield = buff(BrokenSeal.WarriorShield.class);
 		if (!(src instanceof Hunger)

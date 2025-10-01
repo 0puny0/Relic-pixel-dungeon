@@ -315,7 +315,13 @@ abstract public class ClassArmor extends Armor {
 
 		return desc;
 	}
-	
+	public void gainCharge(float amt){
+		charge += amt;
+		if (charge > 100) {
+			charge = 100;
+		}
+		updateQuickslot();
+	}
 	@Override
 	public int value() {
 		return 0;
@@ -340,11 +346,7 @@ abstract public class ClassArmor extends Armor {
 			if (Regeneration.regenOn()) {
 				float chargeGain = 100 / 500f; //500 turns to full charge
 				chargeGain *= RingOfEnergy.armorChargeMultiplier(target);
-				charge += chargeGain;
-				updateQuickslot();
-				if (charge > 100) {
-					charge = 100;
-				}
+				gainCharge(chargeGain);
 			}
 			spend(TICK);
 			return true;

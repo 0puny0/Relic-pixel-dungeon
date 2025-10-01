@@ -844,11 +844,50 @@ public class ItemSpriteSheet {
 	public static final int  COMPASS_1= EXPLORER+1;
 	public static final int  COMPASS_2= EXPLORER+2;
 	public static final int  COMPASS_3= EXPLORER+3;
+	public static final int  TEETH= EXPLORER+4;
+	public static final int  FLESH= EXPLORER+5;
+	public static final int  BLOOD= EXPLORER+6;
+	public static final int  ASHES= EXPLORER+7;
+	public static final int  SOUL= EXPLORER+8;
+	public static final int  HONEY= EXPLORER+16;
+	public static final int  FISH_FIN= EXPLORER+17;
+	public static final int  BOX_CAP= EXPLORER+18;
+	public static final int  STATUE_HEAD= EXPLORER+19;
+	public static final int  RIDGE_SWORD= EXPLORER+20;
+	public static final int  BAT_WING= EXPLORER+21;
+	public static final int  DM_FLAIL= EXPLORER+22;
+	public static final int  DM_DRILL= EXPLORER+23;
+	public static final int  MONK_FIST= EXPLORER+23;
+	public static final int  GOLEM_BATTERY= EXPLORER+24;
+	public static final int  KING_SWORD= EXPLORER+26;
+	public static final int  SCORPIO_TAIL= EXPLORER+27;
+	public static final int  EYE_LARVA= EXPLORER+28;
+	public static final int  SUCCUBUS_BRIEFS= EXPLORER+29;
+
 	static{
 		assignItemRect(COMPASS,        	14, 10);
 		assignItemRect(COMPASS_1,       14, 10);
 		assignItemRect(COMPASS_2,       14, 10);
 		assignItemRect(COMPASS_3,       14, 10);
+		assignItemRect(TEETH,       	11, 10);
+		assignItemRect(FLESH,       	14, 12);
+		assignItemRect(BLOOD,       	8, 15);
+		assignItemRect(ASHES,       	8, 15);
+		assignItemRect(SOUL,       		8, 15);
+		assignItemRect(HONEY,       	8, 15);
+		assignItemRect(FISH_FIN,       12, 9);
+		assignItemRect(BOX_CAP,       12, 14);
+		assignItemRect(STATUE_HEAD,    10, 11);
+		assignItemRect(RIDGE_SWORD,     8, 16);
+		assignItemRect(BAT_WING,       14, 12);
+		assignItemRect(DM_FLAIL,  		 15, 16);
+		assignItemRect(DM_DRILL,       	16, 9);
+		assignItemRect(MONK_FIST,      	 10, 12);
+		assignItemRect(GOLEM_BATTERY,   10, 11);
+		assignItemRect(KING_SWORD,     	  16, 16);
+		assignItemRect(SCORPIO_TAIL,      13, 13);
+		assignItemRect(EYE_LARVA,        	10, 8);
+		assignItemRect(SUCCUBUS_BRIEFS,       10, 7);
 	}
 
 

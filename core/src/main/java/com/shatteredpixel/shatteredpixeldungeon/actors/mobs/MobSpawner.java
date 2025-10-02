@@ -245,20 +245,33 @@ public class MobSpawner extends Actor {
 		for (int i = 0; i < rotation.size(); i++) {
 			if (Random.Float() < altChance) {
 				Class<? extends Mob> cl = rotation.get(i);
+				//一区
 				if (cl == Rat.class)                cl = Albino.class;
+				else if (cl== Snake.class)			cl=PoisonousSnake.class;
 				else if (cl == Gnoll.class)         cl = GnollExile.class;
 				else if (cl == Crab.class)          cl = HermitCrab.class;
 				else if (cl == Slime.class)         cl = CausticSlime.class;
-
+				//二区
+				else if (cl == Skeleton.class)      cl = SwordSkeleton.class;
 				else if (cl == Thief.class)         cl = Bandit.class;
+				else if (cl==DM100.class)			cl= DM101.class;
+				else if (cl==Guard.class)			cl=Warden.class;
 				else if (cl == Necromancer.class)   cl = SpectralNecromancer.class;
-
+				//三区
+				else if (cl==Bat.class)				cl=BloodBat.class;
 				else if (cl == Brute.class)         cl = ArmoredBrute.class;
+				//萨满典范的放在萨满里随机
+				else if (cl==Spinner.class)			cl=CorrosionSpinner.class;
 				else if (cl == DM200.class)         cl = DM201.class;
-
+				//四区
+				else if (cl== Ghoul.class)			cl=EliteGhoul.class;
+				//元素典范放在元素里随机
+				else if (cl==Warlock.class)			cl=HiddenWarlock.class;
 				else if (cl == Monk.class)          cl = Senior.class;
-				//chaos elemental spawning happens in Elemental.Random
-
+				else if (cl==Golem.class)			cl=WarGolem.class;
+				//五区
+				else if (cl== Succubus.class)		cl=EliteSuccubus.class;
+				else if (cl== Eye.class)			cl=DevilEye.class;
 				else if (cl == Scorpio.class)       cl = Acidic.class;
 
 				rotation.set(i, cl);

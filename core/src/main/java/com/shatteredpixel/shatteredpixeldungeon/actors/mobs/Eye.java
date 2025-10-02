@@ -66,8 +66,13 @@ public class Eye extends Mob {
 		lootChance = 1f;
 
 		properties.add(Property.DEMONIC);
-	}
 
+	}
+	{
+		resistances.add( WandOfDisintegration.class );
+		resistances.add( DeathGaze.class );
+		resistances.add( DisintegrationTrap.class );
+	}
 	@Override
 	public int damageRoll() {
 		return Random.NormalIntRange(20, 30);
@@ -282,11 +287,6 @@ public class Eye extends Mob {
 		beamCharged = bundle.getBoolean(BEAM_CHARGED);
 	}
 
-	{
-		resistances.add( WandOfDisintegration.class );
-		resistances.add( DeathGaze.class );
-		resistances.add( DisintegrationTrap.class );
-	}
 
 	private class Hunting extends Mob.Hunting{
 		@Override

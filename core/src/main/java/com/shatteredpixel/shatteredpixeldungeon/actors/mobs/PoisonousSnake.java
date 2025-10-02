@@ -4,6 +4,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.PoisonousSnakeSprite;
 import com.watabou.utils.Random;
 
@@ -11,6 +13,8 @@ public class PoisonousSnake extends Snake{
     {
         spriteClass = PoisonousSnakeSprite.class;
         baseSpeed = 2f;
+        loot = PotionOfToxicGas.class;
+        lootChance = 1f;
         //see rollToDropLoot
 
     }

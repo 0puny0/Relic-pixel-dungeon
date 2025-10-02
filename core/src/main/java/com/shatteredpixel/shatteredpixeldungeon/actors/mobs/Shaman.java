@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.RatSkull;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -183,6 +184,7 @@ public abstract class Shaman extends Mob {
 	public static class WhiteShaman extends Shaman {
 		{
 			spriteClass = ShamanSprite.White.class;
+			lootChance = 1f;
 		}
 		@Override
 		protected void zap(){
@@ -220,6 +222,10 @@ public abstract class Shaman extends Mob {
 		}
 	}
 	public static Class<? extends Shaman> random(){
+		float altChance = 1/50f * RatSkull.exoticChanceMultiplier();
+		if (Random.Float() < altChance){
+			return Shaman.WhiteShaman.class;
+		}
 		float roll = Random.Float();
 		if (roll < 0.4f){
 			return RedShaman.class;

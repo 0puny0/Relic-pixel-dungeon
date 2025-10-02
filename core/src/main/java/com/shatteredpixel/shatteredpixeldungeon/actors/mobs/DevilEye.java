@@ -11,9 +11,14 @@ import com.watabou.utils.Random;
 public class DevilEye extends Eye {
     {
         spriteClass = DevilEyeSprite.class;
+        immunities.add(Blindness.class);
     }
 
 
+    @Override
+    public int attackSkill( Char target ) {
+        return Char.INFINITE_ACCURACY;
+    }
     protected void beamCharge() {
         ((DevilEyeSprite)sprite).charge( enemy.pos );
         spend( attackDelay()*2f );

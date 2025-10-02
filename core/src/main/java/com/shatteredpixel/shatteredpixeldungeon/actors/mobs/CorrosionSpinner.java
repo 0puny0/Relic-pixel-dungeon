@@ -1,16 +1,16 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCorrosiveGas;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CorrosionSpinnerSprite;
-import com.watabou.utils.Random;
 
 public class CorrosionSpinner extends Spinner{
     {
         spriteClass = CorrosionSpinnerSprite.class;
+        loot = PotionOfCorrosiveGas.class;
+        lootChance = 1f;
     }
 
     @Override

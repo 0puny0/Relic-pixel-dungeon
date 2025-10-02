@@ -1,12 +1,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.EliteGhoulSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.GhoulSprite;
 import com.watabou.utils.Random;
 
 public class EliteGhoul extends Ghoul{
     {
         spriteClass = EliteGhoulSprite.class;
+        loot = PlateArmor.class;
+        lootChance = 1f;
     }
 
     @Override

@@ -24,8 +24,8 @@ public class Compass extends Item{
         image = ItemSpriteSheet.COMPASS;
 
         defaultAction = AC_VIEW;
-
         unique = true;
+        bones = false;
     }
     @Override
     public ArrayList<String> actions(Hero hero ) {
@@ -88,7 +88,6 @@ public class Compass extends Item{
     public boolean isIdentified() {
         return true;
     }
-    protected Class<?extends Bag> preferredBag = null;
 
 
 }

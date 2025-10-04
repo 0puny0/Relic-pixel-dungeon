@@ -951,7 +951,7 @@ public abstract class Char extends Actor {
 		if (buff(PinCushion.class)!=null&&src instanceof Char){
 			for (Item item : buff(PinCushion.class).getItems()){
 				if (item instanceof Teeth){
-					int extra=Random.NormalIntRange(item.quantity()*2,item.quantity()*5);
+					int extra=6*item.quantity();
 					dmg+=extra;
 				}
 			}

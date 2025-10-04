@@ -30,6 +30,9 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Rect;
 import com.watabou.utils.Reflection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Blob extends Actor {
 
 	{
@@ -266,5 +269,14 @@ public class Blob extends Actor {
 		} else {
 			return gas.cur[cell];
 		}
+	}
+	public List<Integer> getActiveCells() {
+		List<Integer> cells = new ArrayList<>();
+		for (int i = 0; i < cur.length; i++) {
+			if (cur[i] > 0) {
+				cells.add(i);
+			}
+		}
+		return cells;
 	}
 }

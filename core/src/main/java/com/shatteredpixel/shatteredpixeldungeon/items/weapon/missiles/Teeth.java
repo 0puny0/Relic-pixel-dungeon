@@ -9,7 +9,7 @@ public class Teeth extends MissileWeapon {
         image = ItemSpriteSheet.TEETH;
         hitSound = Assets.Sounds.HIT_STAB;
         hitSoundPitch = 1.1f;
-        tier = 1;
+        tier = 3;
         bones = false;
     }
 

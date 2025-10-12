@@ -12,8 +12,8 @@ public class Blood extends Item{
     public static final String AC_DRINK	= "DRINK";
     {
         image = ItemSpriteSheet.BLOOD;
-
         defaultAction = AC_DRINK;
+        stackable=true;
         bones = false;
     }
     @Override

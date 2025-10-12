@@ -20,6 +20,7 @@ public class Ashes extends Item{
     {
         image = ItemSpriteSheet.ASHES;
         defaultAction = AC_USE;
+        stackable=true;
         bones = false;
     }
     @Override

@@ -136,6 +136,8 @@ public class BuffIndicator extends Component {
 	public static final int MANY_POWER  = 83;
 	public static final int SEAL_SHIELD = 84;
 	public static final int CLOTTING =85;
+	public static final int HEALTH =86;
+	public static final int WAIT =87;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

@@ -107,7 +107,6 @@ public class Flesh  extends Food {
 
         Effect effect=effectList.get(Random.Int(effectList.size()));
 
-        GLog.i(effect.toString());
         switch (effect){
             case barrier: default:
                 Buff.affect(hero,Barrier.class).setShield(hero.HT/10);

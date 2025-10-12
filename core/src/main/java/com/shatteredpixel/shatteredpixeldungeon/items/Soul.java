@@ -16,6 +16,7 @@ public class Soul extends Item{
     {
         image = ItemSpriteSheet.SOUL;
         defaultAction = AC_THROW;
+        stackable=true;
         bones = false;
     }
 

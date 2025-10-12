@@ -66,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terraforming;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.TimeStasis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Wait;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.cleric.AscendedForm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.duelist.Challenge;
@@ -89,6 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
+import com.shatteredpixel.shatteredpixeldungeon.items.BoxCap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -549,7 +551,9 @@ public class Hero extends Char {
 				}
 			}
 		}
-
+		if(buff(Wait.class)!=null&&((Weapon)wep).STRReq()<=STR()){
+			accuracy=INFINITE_ACCURACY;
+		}
 		if (buff(Scimitar.SwordDance.class) != null){
 			accuracy *= 1.50f;
 		}
@@ -639,6 +643,12 @@ public class Hero extends Char {
 			}
 			return Messages.get(Monk.class, "parried");
 		}
+		if (buff(BoxCap.Focus.class) != null){
+			if (sprite != null && sprite.visible) {
+				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
+			}
+			return Messages.get(BoxCap.class, "parried");
+		}
 
 		return super.defenseVerb();
 	}
@@ -661,11 +671,12 @@ public class Hero extends Char {
 			}
 			if (wepDr > 0) dr += wepDr;
 		}
-
 		if (buff(HoldFast.class) != null){
 			dr += buff(HoldFast.class).armorBonus();
 		}
-		
+		if (buff(BoxCap.CapDR.class)!=null){
+			dr+=Random.NormalIntRange(0,4+2*weaponMastery);
+		}
 		return dr;
 	}
 	
@@ -818,6 +829,9 @@ public class Hero extends Char {
 	@Override
 	public void spend( float time ) {
 		super.spend(time);
+		if (buff(Wait.class)!=null&&time>0){
+			buff(Wait.class).detach();
+		}
 	}
 
 	@Override
@@ -1463,6 +1477,7 @@ public class Hero extends Char {
 			if(subClass== HeroSubClass.SURVIVOR){
 				Terraforming.isSneak();
 			}
+			Buff.affect(this, Wait.class);
 			if (sprite != null) {
 				sprite.showStatus(CharSprite.DEFAULT, Messages.get(this, "wait"));
 			}

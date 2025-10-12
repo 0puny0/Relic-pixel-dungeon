@@ -269,12 +269,12 @@ public class MeleeWeapon extends Weapon {
 	}
 	@Override
 	public int maxDamage(Char owner){
-		int max=max(buffedLvl());
 		if (owner instanceof Hero){
 			//TODO 在此结算所有伤害加成效果
-			Hero hero=(Hero) owner;
+			return max(buffedLvl()+((Hero) owner).weaponMastery);
+		}else {
+			return max(buffedLvl());
 		}
-		return max;
 	}
 	public int STRReq(int lvl){
 		int req = STRReq(tier, lvl);

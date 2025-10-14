@@ -5,9 +5,11 @@ import com.shatteredpixel.shatteredpixeldungeon.custom.testmode.StrengthSetting;
 import com.shatteredpixel.shatteredpixeldungeon.items.EnergyCrystal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
@@ -113,6 +115,10 @@ public class LazyTest extends TestGenerator {
             greatsword.level(15);
             greatsword.identify().collect();
 
+            AlchemistsToolkit toolkit=new AlchemistsToolkit();
+            toolkit.level(10);
+            toolkit.identify().collect();
+
             new Gold().quantity(16000000).doPickUp(hero);
 
             new EnergyCrystal().quantity(10000).doPickUp(hero);
@@ -125,8 +131,9 @@ public class LazyTest extends TestGenerator {
 
             new Bomb().quantity(100).collect();
 
-            //new TomeOfMastery().collect();
+
             new TengusMask().collect();
+            new KingsCrown().collect();
 
             new Honeypot().quantity(100).collect();
 
@@ -155,17 +162,12 @@ public class LazyTest extends TestGenerator {
             new Sungrass.Seed().quantity(100).identify().collect();
             new Swiftthistle.Seed().quantity(100).identify().collect();
 
-            for (int i = 0; i < 6; i++) {
-                new PotionOfStrength().apply(hero);
-            }
-
             RingOfAccuracy roa = new RingOfAccuracy();
             roa.level(22);
             roa.identify().collect();
 
             new ScrollOfPsionicBlast().quantity(100).identify().collect();
             new PotionOfCleansing().quantity(100).identify().collect();
-
             new GooBlob().quantity(100).collect();
             new MetalShard().quantity(100).collect();
             new InfernalBrew().quantity(100).collect();

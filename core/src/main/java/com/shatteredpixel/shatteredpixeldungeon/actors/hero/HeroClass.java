@@ -276,7 +276,6 @@ public enum HeroClass {
 	}
 	private static void initExplorer( Hero hero ) {
 
-		(hero.belongings.weapon = new JianDun()).identify();
 		hero.belongings.weapon.activate(hero);
 		Compass compass=new Compass();
 		compass.collect();

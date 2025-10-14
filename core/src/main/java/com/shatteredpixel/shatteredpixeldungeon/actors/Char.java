@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -103,7 +102,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.MirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.PrismaticImage;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.BoxCap;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.BoxCap;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -658,6 +657,8 @@ public abstract class Char extends Actor {
 			defStat = INFINITE_EVASION;
 		}
 		if (defender.buff(MonkFist.Focus.class) != null){
+			defStat = INFINITE_EVASION;
+		}
 
 		//if accuracy or evasion are large enough, treat them as infinite.
 		//note that infinite evasion beats infinite accuracy
@@ -1321,7 +1322,6 @@ public abstract class Char extends Actor {
 
 	//travelling may be false when a character is moving instantaneously, such as via teleportation
 	public void move( int step, boolean travelling ) {
-
 		if (travelling && Dungeon.level.adjacent( step, pos ) && buff( Vertigo.class ) != null) {
 			sprite.interruptMotion();
 			int newPos = pos + PathFinder.NEIGHBOURS8[Random.Int( 8 )];

@@ -10,7 +10,6 @@ public class FishFin extends Food{
     {
         image = ItemSpriteSheet.FISH_FIN;
         energy = Hunger.HUNGRY/2f;
-        bones = false;
     }
 
     @Override

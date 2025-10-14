@@ -18,7 +18,6 @@ public class Honey extends Item{
         image = ItemSpriteSheet.HONEY;
         defaultAction = AC_USE;
         stackable=true;
-        bones = false;
     }
     public static final String AC_USE	= "USE";
     @Override

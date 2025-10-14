@@ -819,6 +819,7 @@ public class ItemSpriteSheet {
 	public static final int  SHE_HUN_CI= NEW_WEAPON+12;
 	public static final int  SHI_HUN_YAO_LIAN= NEW_WEAPON+13;
 	public static final int  JIAN_DUN= NEW_WEAPON+14;
+	public static final int  YE_YING_DAO= NEW_WEAPON+15;
 	static{
 		assignItemRect(TEN_MU_1, 14, 13);
 		assignItemRect(TEN_MU_2, 16, 16);
@@ -835,6 +836,7 @@ public class ItemSpriteSheet {
 		assignItemRect(SHE_HUN_CI, 14, 14);
 		assignItemRect(SHI_HUN_YAO_LIAN, 16, 15);
 		assignItemRect(JIAN_DUN, 15, 15);
+		assignItemRect(YE_YING_DAO, 11, 12);
 
 	}
 
@@ -857,12 +859,12 @@ public class ItemSpriteSheet {
 	public static final int  BAT_WING= EXPLORER+21;
 	public static final int  DM_FLAIL= EXPLORER+22;
 	public static final int  DM_DRILL= EXPLORER+23;
-	public static final int  MONK_FIST= EXPLORER+23;
-	public static final int  GOLEM_BATTERY= EXPLORER+24;
-	public static final int  KING_SWORD= EXPLORER+26;
-	public static final int  SCORPIO_TAIL= EXPLORER+27;
-	public static final int  EYE_LARVA= EXPLORER+28;
-	public static final int  SUCCUBUS_BRIEFS= EXPLORER+29;
+	public static final int  MONK_FIST= EXPLORER+24;
+	public static final int  GOLEM_BATTERY= EXPLORER+25;
+	public static final int  KING_SWORD= EXPLORER+27;
+	public static final int  SCORPIO_TAIL= EXPLORER+28;
+	public static final int  EYE_LARVA= EXPLORER+29;
+	public static final int  SUCCUBUS_BRIEFS= EXPLORER+30;
 
 	static{
 		assignItemRect(COMPASS,        	14, 10);
@@ -878,7 +880,7 @@ public class ItemSpriteSheet {
 		assignItemRect(FISH_FIN,       12, 9);
 		assignItemRect(BOX_CAP,       12, 14);
 		assignItemRect(STATUE_HEAD,    10, 11);
-		assignItemRect(RIDGE_SWORD,     8, 16);
+		assignItemRect(RIDGE_SWORD,     16, 16);
 		assignItemRect(BAT_WING,       14, 12);
 		assignItemRect(DM_FLAIL,  		 15, 16);
 		assignItemRect(DM_DRILL,       	16, 9);

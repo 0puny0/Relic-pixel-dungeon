@@ -106,14 +106,16 @@ public class Flail extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
-
+		SpinAbility(hero,this);
+	}
+	public static void SpinAbility(Hero hero,  MeleeWeapon wep){
 		SpinAbilityTracker spin = hero.buff(SpinAbilityTracker.class);
 		if (spin != null && spin.spins >= 3){
-			GLog.w(Messages.get(this, "spin_warn"));
+			GLog.w(Messages.get(wep, "spin_warn"));
 			return;
 		}
 
-		beforeAbilityUsed(hero, null);
+		wep.beforeAbilityUsed(hero, null);
 		if (spin == null){
 			spin = Buff.affect(hero, SpinAbilityTracker.class, 3f);
 		}
@@ -125,9 +127,8 @@ public class Flail extends MeleeWeapon {
 		hero.spendAndNext(Actor.TICK);
 		BuffIndicator.refreshHero();
 
-		afterAbilityUsed(hero);
+		wep.afterAbilityUsed(hero);
 	}
-
 	@Override
 	public String abilityInfo() {
 		int dmgBoost = damageBoost(8 + 2*buffedLvl()+2* Dungeon.hero.weaponMastery);

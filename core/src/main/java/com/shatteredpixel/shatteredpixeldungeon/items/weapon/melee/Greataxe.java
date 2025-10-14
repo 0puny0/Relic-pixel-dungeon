@@ -66,24 +66,28 @@ public class Greataxe extends MeleeWeapon {
 
 	@Override
 	protected void duelistAbility(Hero hero, Integer target) {
+		//+(15+(2*lvl)) damage, roughly +60% base damage, +55% scaling
+		int dmgBoost = augment.damageFactor(damageBoost(15 + 2*buffedLvl()+2*hero.weaponMastery) );
+		RetributionAbility(hero,target,dmgBoost,this);
+	}
+	public static void RetributionAbility(Hero hero,Integer target,int dmgBoost,MeleeWeapon wep){
 		if (hero.HP / (float)hero.HT >= 0.5f){
-			GLog.w(Messages.get(this, "ability_cant_use"));
+			GLog.w(Messages.get(wep, "ability_cant_use"));
 			return;
 		}
-
 		if (target == null) {
 			return;
 		}
 
 		Char enemy = Actor.findChar(target);
 		if (enemy == null || enemy == hero || hero.isCharmedBy(enemy) || !Dungeon.level.heroFOV[target]) {
-			GLog.w(Messages.get(this, "ability_no_target"));
+			GLog.w(Messages.get(wep, "ability_no_target"));
 			return;
 		}
 
-		hero.belongings.abilityWeapon = this;
+		hero.belongings.abilityWeapon = wep;
 		if (!hero.canAttack(enemy)){
-			GLog.w(Messages.get(this, "ability_target_range"));
+			GLog.w(Messages.get(wep, "ability_target_range"));
 			hero.belongings.abilityWeapon = null;
 			return;
 		}
@@ -92,12 +96,8 @@ public class Greataxe extends MeleeWeapon {
 		hero.sprite.attack(enemy.pos, new Callback() {
 			@Override
 			public void call() {
-				beforeAbilityUsed(hero, enemy);
+				wep.beforeAbilityUsed(hero, enemy);
 				AttackIndicator.target(enemy);
-
-				//+(15+(2*lvl)) damage, roughly +60% base damage, +55% scaling
-				int dmgBoost = augment.damageFactor(damageBoost(15 + 2*buffedLvl()+2*hero.weaponMastery) );
-
 				if (hero.attack(enemy, 1, dmgBoost, Char.INFINITE_ACCURACY)){
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 				}
@@ -109,11 +109,10 @@ public class Greataxe extends MeleeWeapon {
 				} else {
 					hero.spendAndNext(hero.attackDelay());
 				}
-				afterAbilityUsed(hero);
+				wep.afterAbilityUsed(hero);
 			}
 		});
 	}
-
 	@Override
 	public String abilityInfo() {
 		Hero hero=Dungeon.hero;

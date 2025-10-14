@@ -141,6 +141,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocki
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.YongYan;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.MonkFist;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.NingBing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier4.SuoHunLian;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier5.LeiMing;
@@ -656,6 +657,7 @@ public abstract class Char extends Actor {
 		if (defender.buff(BoxCap.Focus.class) != null){
 			defStat = INFINITE_EVASION;
 		}
+		if (defender.buff(MonkFist.Focus.class) != null){
 
 		//if accuracy or evasion are large enough, treat them as infinite.
 		//note that infinite evasion beats infinite accuracy

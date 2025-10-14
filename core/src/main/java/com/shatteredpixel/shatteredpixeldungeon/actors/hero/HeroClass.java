@@ -90,6 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier1.JianDun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier2.DuoHunZhua;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier1.YeYingDao;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier2.TenMu_1;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.ShouNu;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.tier3.YongYan;
@@ -276,6 +277,7 @@ public enum HeroClass {
 	}
 	private static void initExplorer( Hero hero ) {
 
+		(hero.belongings.weapon = new YeYingDao()).identify();
 		hero.belongings.weapon.activate(hero);
 		Compass compass=new Compass();
 		compass.collect();

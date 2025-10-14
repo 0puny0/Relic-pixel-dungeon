@@ -649,6 +649,7 @@ public class Hero extends Char {
 			}
 			return Messages.get(BoxCap.class, "parried");
 		}
+		if (buff(MonkFist.Focus.class) != null){
 
 		return super.defenseVerb();
 	}
@@ -762,6 +763,7 @@ public class Hero extends Char {
 		if (RingOfForce.fightingUnarmed(this))  return true;
 		if (STR() < ((Weapon)w).STRReq())       return false;
 		if (w instanceof Flail)                 return false;
+		if (w instanceof Flail||w instanceof DmFlail)                 return false;
 
 		return super.canSurpriseAttack();
 	}
